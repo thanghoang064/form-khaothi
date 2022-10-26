@@ -36,7 +36,7 @@
             </td>
             <td>{{ $item->created_at == ""  ? "Không có thời gian" : $item->created_at }}</td>
             <td>
-                <button  type="button" onclick="location.href='{{ route('ky-hoc.index') }}'" class="btn btn-link btn-sm btn-rounded">
+                <button  type="button" onclick="location.href=''" class="btn btn-link btn-sm btn-rounded">
                     View
                 </button>
             </td>

@@ -7,7 +7,7 @@
                 <th>Id</th>
                 <th>Tên kỳ thi</th>
                 <th>
-                    <a href="{{route('ky_hoc.add')}}" class="btn btn-sm btn-success">Tạo mới</a>
+                    <a href="" class="btn btn-sm btn-success">Tạo mới</a>
                 </th>
                 </thead>
                 <tbody>
@@ -32,10 +32,10 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </button>
-                            <a href="{{route('dotthi.edit')}}" class="btn btn-sm btn-info" title="Chỉnh sửa">
+                            <a href="" class="btn btn-sm btn-info" title="Chỉnh sửa">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a href="{{route('dotthi.delete')}}" class="btn btn-sm btn-danger" title="Xóa">
+                            <a href="" class="btn btn-sm btn-danger" title="Xóa">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>

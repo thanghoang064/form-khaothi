@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('tai-file-bao-cao-thi/{luotbaocao}', [\App\Http\Controllers\FormBaoCaoThiController::class, 'taiFileBaocao'])->name('form.taifilebaocao');
 });
 
+Route::get('kyhoc', [\App\Http\Controllers\KyhocController::class, 'index'])->name('ky-hoc.index');
 Route::view('layout', 'layouts.admin.master2');
 Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
@@ -38,11 +39,10 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::post('fuge', [\App\Http\Controllers\FugeController::class, 'postFugeFile']);
     Route::get('fuge/lich-su-bao-cao', [\App\Http\Controllers\FugeController::class, 'lichSuUpload'])->name('fuge.lichsu');
 
-    Route::get('quanlifuge', [\App\Http\Controllers\DashboardController::class, 'quanlifuge'])->name('quanlifuge');
     Route::group(['prefix' => 'ky-hoc'], function (){
-        Route::get('', [\App\Http\Controllers\DotThiController::class, 'index_ky_hoc'])->name('ky-hoc.index');
-        Route::get('add', [\App\Http\Controllers\DotThiController::class, 'add_ky_hoc'])->name('ky_hoc.add');
-        Route::post('add', [\App\Http\Controllers\DotThiController::class, 'new_ky_hoc']);
+        Route::get('', [\App\Http\Controllers\KyhocController::class, 'index'])->name('ky-hoc.index');
+        Route::get('add', [\App\Http\Controllers\KyhocController::class, 'add_ky_hoc'])->name('ky_hoc.add');
+        Route::post('add', [\App\Http\Controllers\KyhocController::class, 'new_ky_hoc']);
     });
 
     Route::group(['prefix' => 'dot-thi'], function (){

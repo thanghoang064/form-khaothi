@@ -11,10 +11,5 @@ class DashboardController extends Controller
         return view('admin.dashboard.index');
     }
 
-    public function quanlifuge(){
-        $user = User::get();
-//        dd($user);
-        return view('admin.quanli.list',compact('user'));
-    }
 
 }
