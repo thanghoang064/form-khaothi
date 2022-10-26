@@ -42,6 +42,7 @@ class GetDataDotThiPodCast
 
         $data = $service->spreadsheets_values->get($spreadsheetId, $range);
         $soBanGhi = 0;
+
         foreach ($data as $row){
             $maMonThi = $row[6];
             $tenMonThi = $row[5];

@@ -24,6 +24,7 @@ class AuthController extends Controller
     }
     public function authCallback(){
         $guser = Socialite::driver('google')->user();
+
         $user = User::where('email', $guser->email)->first();
         if(!$user){
             $user = new User();
