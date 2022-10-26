@@ -20,6 +20,10 @@ Route::get('auth/callback', [\App\Http\Controllers\AuthController::class, 'authC
 Route::any('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 Route::get('auth/fakelogin', [\App\Http\Controllers\AuthController::class, 'fakeLogin'])->name('login.fake');
 Route::group(['middleware' => 'auth'], function(){
+    Route::get('fuge', [\App\Http\Controllers\FugeController::class, 'index'])->name('form.uploadfuge');
+    Route::post('fuge', [\App\Http\Controllers\FugeController::class, 'postFugeFile']);
+    Route::get('form-bao-cao-thanh-cong-fuge', [\App\Http\Controllers\FugeController::class, 'thanhCong'])->name('form.thanhcongFuge');
+    Route::get('fuge/lich-su-bao-cao', [\App\Http\Controllers\FugeController::class, 'lichSuUpload'])->name('fuge.lichsu');
     Route::get('form-bao-cao-thi', [\App\Http\Controllers\FormBaoCaoThiController::class, 'index'])->name('form.baocaothi');
     Route::post('form-bao-cao-thi', [\App\Http\Controllers\FormBaoCaoThiController::class, 'postBaoCaoThi']);
 
@@ -33,10 +37,6 @@ Route::view('layout', 'layouts.admin.master2');
 Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-
-    Route::get('fuge', [\App\Http\Controllers\FugeController::class, 'index'])->name('fuge.upload');
-    Route::post('fuge', [\App\Http\Controllers\FugeController::class, 'postFugeFile']);
-    Route::get('fuge/lich-su-bao-cao', [\App\Http\Controllers\FugeController::class, 'lichSuUpload'])->name('fuge.lichsu');
 
     Route::get('quanlifuge', [\App\Http\Controllers\DashboardController::class, 'quanlifuge'])->name('quanlifuge');
     Route::group(['prefix' => 'ky-hoc'], function (){

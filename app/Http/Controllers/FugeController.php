@@ -16,7 +16,7 @@ class FugeController extends Controller
     {
         $kyhoc = KyHoc::all();
 //        dd(\Illuminate\Support\Facades\Auth::user());
-        return view('admin.fuge.uploadfuge', compact('kyhoc'));
+        return view('form.uploadfuge', compact('kyhoc'));
     }
 
     public function postFugeFile(Request $request)
@@ -38,7 +38,7 @@ class FugeController extends Controller
         $dirName = 'public/uploads/fuge/hoc-ky-' . str_replace(' ', '-', mb_strtolower($kyhoc->name)) . '/' . $username;
         $googleDisk = Storage::disk('local');
         $filePath = $googleDisk->put($dirName, $request->file('file_fuge'));
-        dd($filePath);
+//        dd($filePath);
 
 //        if ($model) {
 //            $googleDisk->delete($model->file_name);
@@ -46,16 +46,17 @@ class FugeController extends Controller
 //            $model = new Fuge();
 //        }
         $model = new Fuge();
-        $model->fill($request->all());
-        $model->ky_hoc_id = $kyhoc->id;
+//        $model->fill($request->all());
+        $model->user_id = $user->id;
+        $model->hoc_ky_id = $kyhoc->id;
         $model->file_name = $filePath;
         $model->save();
-        return redirect(route('form.thanhcong'));
+        return redirect(route('form.thanhcongFuge'));
     }
 
     public function thanhCong()
     {
-        return view('form.baocaothi-thanhcong');
+        return view('form.uploadfuge-thanhcong');
     }
 
     public function lichSuUpload()
