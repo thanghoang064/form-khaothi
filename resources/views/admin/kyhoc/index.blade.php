@@ -1,19 +1,13 @@
 @extends('layouts.admin.master')
-@section('module-name', "Đợt thi")
-@section('page-name', 'Danh sách đợt thi')
 @section('content')
     <div class="card card-flush pt-5 pb-5">
         <div class="card-body">
-            <table class="table table-hover table-responsive">
+            <table class="table table-hover table-responsive text-center">
                 <thead>
-                <th>Tên đợt thi</th>
-                <th>Sheet Id</th>
-                <th>Trạng thái</th>
-                <th>Đồng bộ</th>
-                <th>Lượt đồng bộ</th>
-                <th>Thống kê</th>
+                <th>Id</th>
+                <th>Tên kỳ thi</th>
                 <th>
-                    <a href="{{route('dotthi.add')}}" class="btn btn-sm btn-success">Tạo mới</a>
+                    <a href="{{route('ky_hoc.add')}}" class="btn btn-sm btn-success">Tạo mới</a>
                 </th>
                 </thead>
                 <tbody>
@@ -22,26 +16,9 @@
                         {{$delete}}
                     </div>
                 @endisset
-                @foreach($dotthi as $dt)
-                    <tr>
-                        <td>{{$dt->name}}</td>
-                        <td>{{$dt->sheet_id}}</td>
-                        <td>{{$dt->statu == 1 ? "Active" : "Inactive"}}</td>
-                        <td>{{$dt->trang_thai_dong_bo == 1 ? "Đã đồng bộ" : "Đang đồng bộ"}}</td>
-                        <td>
-                            @if(count($dt->dong_bo_dot_thi) == 0)
-                                0
-                            @else
-                                {{$dt->dong_bo_dot_thi[count($dt->dong_bo_dot_thi) - 1]->luot_dong_bo}}
-                            @endif
-                        </td>
-                        <td>
-                            @if(count($dt->dong_bo_dot_thi) == 0)
-                                Chưa có dữ liệu
-                            @else
-                                {{count($dt->luot_bao_cao)}}/{{$dt->dong_bo_dot_thi[count($dt->dong_bo_dot_thi) - 1]->so_ban_ghi}}
-                            @endif
-                        </td>
+                    <tr >
+                        <td>1</td>
+                        <td>Kỳ fall</td>
                         <td>
                             <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end show menu-dropdown" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen023.svg-->
@@ -55,15 +32,14 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </button>
-                            <a href="{{route('dotthi.edit')}}?id={{ $dt->id }}" class="btn btn-sm btn-info" title="Chỉnh sửa">
+                            <a href="{{route('dotthi.edit')}}" class="btn btn-sm btn-info" title="Chỉnh sửa">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a href="{{route('dotthi.delete')}}?id={{ $dt->id }}" class="btn btn-sm btn-danger" title="Xóa">
+                            <a href="{{route('dotthi.delete')}}" class="btn btn-sm btn-danger" title="Xóa">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>
                     </tr>
-                @endforeach
                 </tbody>
             </table>
         </div>
