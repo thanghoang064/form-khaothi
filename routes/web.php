@@ -33,6 +33,9 @@ Route::view('layout', 'layouts.admin.master2');
 Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('fuge', [\App\Http\Controllers\FugeController::class, 'index'])->name('fuge.upload');
+    Route::post('fuge', [\App\Http\Controllers\FugeController::class, 'postFugeFile']);
+    Route::get('fuge/lich-su-bao-cao', [\App\Http\Controllers\FugeController::class, 'lichSuUpload'])->name('fuge.lichsu');
     Route::group(['prefix' => 'dot-thi'], function (){
        Route::get('', [\App\Http\Controllers\DotThiController::class, 'index'])->name('dotthi.index');
        Route::get('tao-moi', [\App\Http\Controllers\DotThiController::class, 'addForm'])->name('dotthi.add');
