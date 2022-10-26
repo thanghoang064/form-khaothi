@@ -20,5 +20,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call([
+            DotThiTableSeeder::class,
+            BoMonTableSeeder::class,
+            MonHocTableSeeder::class,
+            RoleTableSeeder::class,
+            UserTableSeeder::class,
+        ]);
     }
 }
