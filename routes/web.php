@@ -33,9 +33,18 @@ Route::view('layout', 'layouts.admin.master2');
 Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('quanlifuge', [\App\Http\Controllers\DashboardController::class, 'quanlifuge'])->name('quanlifuge');
+    Route::group(['prefix' => 'ky-hoc'], function (){
+        Route::get('', [\App\Http\Controllers\DotThiController::class, 'index_ky_hoc'])->name('ky-hoc.index');
+        Route::get('add', [\App\Http\Controllers\DotThiController::class, 'add_ky_hoc'])->name('ky_hoc.add');
+        Route::post('add', [\App\Http\Controllers\DotThiController::class, 'new_ky_hoc']);
+    });
     Route::group(['prefix' => 'dot-thi'], function (){
        Route::get('', [\App\Http\Controllers\DotThiController::class, 'index'])->name('dotthi.index');
        Route::get('tao-moi', [\App\Http\Controllers\DotThiController::class, 'addForm'])->name('dotthi.add');
        Route::post('tao-moi', [\App\Http\Controllers\DotThiController::class, 'saveAdd']);
+       Route::get('sua', [\App\Http\Controllers\DotThiController::class, 'editForm'])->name('dotthi.edit');
+       Route::post('sua', [\App\Http\Controllers\DotThiController::class, 'updateForm']);
+       Route::delete('xoa', [\App\Http\Controllers\DotThiController::class, 'deleteForm'])->name('dotthi.delete');
     });
 });

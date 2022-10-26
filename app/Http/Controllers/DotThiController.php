@@ -54,7 +54,72 @@ class DotThiController extends Controller
         $model->sheet_id = $request->sheet_id;
         $model->save();
         GetDataDotThiProcessed::dispatch($model);
-//        return view('admin.dotthi.index')->with('msg', 'Tạo đợt thi thành công, hệ thống đang đồng bộ dữ liệu từ google sheet');
-        return redirect(route('dotthi.index'))->with('msg', 'Tạo đợt thi thành công, hệ thống đang đồng bộ dữ liệu từ google sheet');
+        return view('admin.dotthi.index')->with('msg', 'Tạo đợt thi thành công, hệ thống đang đồng bộ dữ liệu từ google sheet');
+            return redirect(route('dotthi.index'))->with('msg', 'Tạo đợt thi thành công, hệ thống đang đồng bộ dữ liệu từ google sheet');
     }
+
+    public function editForm(Request $request){
+        $id = $request->id;
+        $data_dot_thi = DotThi::find($id);
+
+        return view('admin.dotthi.edit-form',compact('data_dot_thi'));
+    }
+
+    public function updateForm(Request $request){
+        $id = $request->id;
+
+        $request->validate([
+            'name_exam' => 'required',
+            'sheet_id_exam' => 'required|integer',
+        ], [
+            'required' => 'Vui lòng không để trống',
+            'integer' => 'Vui lòng nhập số'
+        ]);
+         DotThi::where('id',$id)->update(
+            [
+                'name' => $request->name_exam,
+                'sheet_id' => $request->sheet_id_exam
+            ]
+        );
+
+        return redirect(route('dotthi.index'))->with('msg', 'Sửa thành công, hệ thống đang đồng bộ dữ liệu từ google sheet');
+
+
+//        $model = new DotThi();
+//        $model->name = $request->name;
+//        $model->sheet_id = $request->sheet_id;
+//        $model->save();
+//        GetDataDotThiProcessed::dispatch($model);
+//        return view('admin.dotthi.index')->with('msg', 'Tạo đợt thi thành công, hệ thống đang đồng bộ dữ liệu từ google sheet');
+//        return redirect(route('dotthi.index'))->with('msg', 'Tạo đợt thi thành công, hệ thống đang đồng bộ dữ liệu từ google sheet');
+    }
+
+    public function deleteForm(request $request){
+        if(isset($request->id)){
+            DotThi::where('id',$request->id)->delete();
+            return redirect(route('dotthi.index'));
+        }
+    }
+
+    public function index_ky_hoc(){
+        return view('admin.kyhoc.index');
+    }
+
+    public function add_ky_hoc(){
+        return view('admin.kyhoc.add_ky_hoc');
+    }
+
+    public function new_ky_hoc(request $request){
+        $request->validate(
+            ['name_ky_hoc'=> 'required|min:6',
+            ],
+            [
+                'required' => 'Không để trống tên kỳ học',
+                'min' => 'Chiều dài tối thiểu :min kí tự'
+            ]
+        );
+
+
+    }
+
 }
