@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('dot_thi', function (Blueprint $table) {
-            $table->string('sheet_id');
+            $table->string('sheet_id')->nullable();
             $table->integer("trang_thai_dong_bo")->default(1);
             $table->integer('luot_dong_bo')->default(0);
         });

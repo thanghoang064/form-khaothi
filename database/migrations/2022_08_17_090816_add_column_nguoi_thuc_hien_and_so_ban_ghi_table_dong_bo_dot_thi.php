@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('dong_bo_dot_thi', function (Blueprint $table) {
-            $table->unsignedBigInteger('nguoi_thuc_hien');
-            $table->integer('so_ban_ghi');
+            $table->unsignedBigInteger('nguoi_thuc_hien')->nullable();
+            $table->integer('so_ban_ghi')->nullable();
         });
     }
 

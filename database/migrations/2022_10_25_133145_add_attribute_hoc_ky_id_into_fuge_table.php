@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('fuge', function (Blueprint $table) {
             //
-            $table->bigInteger('hoc_ky_id');
+            $table->bigInteger('hoc_ky_id')->nullable();
         });
     }
 
