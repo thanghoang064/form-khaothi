@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KyHoc extends Model
+class Fuge extends Model
 {
     use HasFactory;
 
-    protected $table = 'ky_hoc';
+    protected $table = 'fuge';
 }
