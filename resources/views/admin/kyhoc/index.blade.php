@@ -1,4 +1,6 @@
 @extends('layouts.admin.master')
+@section('module-name', "Kỳ học")
+@section('page-name', 'Danh sách kì học')
 @section('content')
     <div class="card card-flush pt-5 pb-5">
         <div class="card-body">
