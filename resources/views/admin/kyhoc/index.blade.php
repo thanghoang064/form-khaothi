@@ -6,6 +6,8 @@
                 <thead>
                 <th>Id</th>
                 <th>Tên kỳ thi</th>
+                <th>Ngày tạo</th>
+                <th>Ngày cập nhật</th>
                 <th>
                     <a href="{{route('ky_hoc.add')}}" class="btn btn-sm btn-success">Tạo mới</a>
                 </th>
@@ -16,9 +18,12 @@
                         {{$delete}}
                     </div>
                 @endisset
+                @foreach($datas as $item)
                     <tr >
-                        <td>1</td>
-                        <td>Kỳ fall</td>
+                        <td>{{ $item->id }}</td>
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->created_at == "" ? "Chưa có thời gian tạo" : $item->created_at }}</td>
+                        <td>{{ $item->updated_at == "" ? "Chưa có thời gian cập nhật" : $item->updated_at }}</td>
                         <td>
                             <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end show menu-dropdown" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen023.svg-->
@@ -32,16 +37,22 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </button>
-                            <a href="{{route('dotthi.edit')}}" class="btn btn-sm btn-info" title="Chỉnh sửa">
+                            <a href="{{route('ky_hoc.edit')}}?id={{$item->id}}" class="btn btn-sm btn-info" title="Chỉnh sửa">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a href="{{route('dotthi.delete')}}" class="btn btn-sm btn-danger" title="Xóa">
-                                <i class="fa fa-trash"></i>
-                            </a>
+                            <form method="POST" action="{{ route('ky_hoc.delete',[$item->id]) }}" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" id="delete_ky_hoc" title="Xóa">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+
 @endsection

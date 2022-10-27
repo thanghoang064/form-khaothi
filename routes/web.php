@@ -39,9 +39,12 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     Route::group(['prefix' => 'ky-hoc'], function (){
-        Route::get('', [\App\Http\Controllers\DotThiController::class, 'index_ky_hoc'])->name('ky-hoc.index');
-        Route::get('add', [\App\Http\Controllers\DotThiController::class, 'add_ky_hoc'])->name('ky_hoc.add');
-        Route::post('add', [\App\Http\Controllers\DotThiController::class, 'new_ky_hoc']);
+        Route::get('', [\App\Http\Controllers\HocKyController::class, 'index_ky_hoc'])->name('ky-hoc.index');
+        Route::get('add', [\App\Http\Controllers\HocKyController::class, 'add_ky_hoc'])->name('ky_hoc.add');
+        Route::post('add', [\App\Http\Controllers\HocKyController::class, 'new_ky_hoc']);
+        Route::get('edit', [\App\Http\Controllers\HocKyController::class, 'edit'])->name('ky_hoc.edit');
+        Route::post('edit', [\App\Http\Controllers\HocKyController::class, 'update_ky_hoc']);
+        Route::delete('delete/{id}', [\App\Http\Controllers\HocKyController::class, 'delete'])->name('ky_hoc.delete');
     });
 
     Route::group(['prefix' => 'dot-thi'], function (){
