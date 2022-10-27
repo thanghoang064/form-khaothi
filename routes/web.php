@@ -38,7 +38,6 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('quanlifuge', [\App\Http\Controllers\DashboardController::class, 'quanlifuge'])->name('quanlifuge');
     Route::group(['prefix' => 'ky-hoc'], function (){
         Route::get('', [\App\Http\Controllers\DotThiController::class, 'index_ky_hoc'])->name('ky-hoc.index');
         Route::get('add', [\App\Http\Controllers\DotThiController::class, 'add_ky_hoc'])->name('ky_hoc.add');
@@ -52,5 +51,13 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
        Route::get('sua', [\App\Http\Controllers\DotThiController::class, 'editForm'])->name('dotthi.edit');
        Route::post('sua', [\App\Http\Controllers\DotThiController::class, 'updateForm']);
        Route::delete('xoa', [\App\Http\Controllers\DotThiController::class, 'deleteForm'])->name('dotthi.delete');
+    });
+
+    Route::get('giangvien', [\App\Http\Controllers\UserController::class, 'index'])->name('giangvien.list');
+
+    Route::group(['prefix' => 'fuge'], function (){
+        Route::get('danhsachupload', [\App\Http\Controllers\FugeController::class, 'danhSachUpload'])->name('fuge.danhsachupload');
+        Route::get('file-fuge/{id}', [\App\Http\Controllers\FugeController::class, 'taiFileFuge'])
+            ->name('fuge.download');
     });
 });
