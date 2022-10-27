@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fuge;
 use App\Models\KyHoc;
+use App\Models\User;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,9 +15,10 @@ class FugeController extends Controller
 {
     public function index()
     {
+
         $kyhoc = KyHoc::all();
 //        dd(\Illuminate\Support\Facades\Auth::user());
-        return view('admin.fuge.uploadfuge', compact('kyhoc'));
+        return view('form.uploadfuge', compact('kyhoc'));
     }
 
     public function postFugeFile(Request $request)
@@ -25,37 +27,42 @@ class FugeController extends Controller
         $kyhoc = KyHoc::find($request->ky_hoc);
         $user = \Illuminate\Support\Facades\Auth::user();
         $username = explode('@', $user->email)[0];
-//        $model = LuotBaoCaoThi::where('mon_hoc_id', $request->mon_hoc_id)
-//            ->where('ngay_thi', $ngaythi)
-//            ->where('ca_thi', $request->ca_thi)
-//            ->where('ten_lop', mb_strtoupper(trim($request->ten_lop)))
-//            ->first();
 
-//        $dirName = 'file-thi-10b/' . $dotthi->name . '/' . $bomon->name . '/' . $monhoc->name . '/' . mb_strtoupper(trim($request->ten_lop));
-//        $dirName .= str_replace('-', '_', $ngaythi) . ".ca-" . $request->ca_thi;
-//        $googleDisk = Storage::disk('google');
-//        $filePath = $googleDisk->put($dirName, $request->file('file_fuge'));
+
         $dirName = 'public/uploads/fuge/hoc-ky-' . str_replace(' ', '-', mb_strtolower($kyhoc->name)) . '/' . $username;
-        $googleDisk = Storage::disk('local');
-        $filePath = $googleDisk->put($dirName, $request->file('file_fuge'));
-        dd($filePath);
+        $nameFile = $request->file('file_fuge')->getClientOriginalName();
+        $filePath = $request->file('file_fuge')->storeAs($dirName, $nameFile);
 
-//        if ($model) {
-//            $googleDisk->delete($model->file_name);
-//        } else {
-//            $model = new Fuge();
-//        }
         $model = new Fuge();
-        $model->fill($request->all());
-        $model->ky_hoc_id = $kyhoc->id;
+        $model->user_id = $user->id;
+        $model->hoc_ky_id = $kyhoc->id;
         $model->file_name = $filePath;
         $model->save();
-        return redirect(route('form.thanhcong'));
+        return redirect(route('form.thanhcongFuge'));
     }
 
     public function thanhCong()
     {
-        return view('form.baocaothi-thanhcong');
+        return view('form.uploadfuge-thanhcong');
+    }
+
+    public function danhSachUpload(Request $request)
+    {
+        $test = $request->ky_hoc;
+
+        $id = $request->id;
+        $user = User::find($request->id);
+        $kyhoc = KyHoc::all();
+        $list = Fuge::where('user_id', $user->id);
+        if (isset($test)) {
+            $list->where('hoc_ky_id', $test);
+        }
+        $danhsach = $list->orderBy('id', 'desc')->get();
+        $arrKyHoc = [];
+        foreach ($kyhoc as $kh) {
+            $arrKyHoc[$kh->id] = $kh->name;
+        }
+        return view('admin.fuge.danh-sach-upload', compact('user', 'danhsach', 'arrKyHoc'));
     }
 
     public function lichSuUpload()
@@ -68,18 +75,13 @@ class FugeController extends Controller
 
     }
 
-    public function taiFileBaocao($luotbaocao)
+    public function taiFileFuge($id)
     {
-        $luotBaoCao = LuotBaoCaoThi::find($luotbaocao);
-        $fileInfo = pathinfo($luotBaoCao->file_10b);
-        $ext = $fileInfo['extension'];
-        $downloadFileName = $luotBaoCao->ten_lop . '_' . $luotBaoCao->ngay_thi . "_ca-" . $luotBaoCao->ca_thi . '.' . $ext;
-        $googleDisk = Storage::disk('google');
-        $file = $googleDisk->get($luotBaoCao->file_10b);
-        return response()->streamDownload(function () use ($file) {
-            echo $file;
-        }, $downloadFileName);
-//        dd($path);
+        $fileFuge = Fuge::find($id);
+        $googleDisk = Storage::disk('local');
+        if (!empty($fileFuge->file_name)) {
+            return $googleDisk->download($fileFuge->file_name);
+        }
 
     }
 }

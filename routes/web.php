@@ -20,6 +20,10 @@ Route::get('auth/callback', [\App\Http\Controllers\AuthController::class, 'authC
 Route::any('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 Route::get('auth/fakelogin', [\App\Http\Controllers\AuthController::class, 'fakeLogin'])->name('login.fake');
 Route::group(['middleware' => 'auth'], function(){
+    Route::get('fuge', [\App\Http\Controllers\FugeController::class, 'index'])->name('form.uploadfuge');
+    Route::post('fuge', [\App\Http\Controllers\FugeController::class, 'postFugeFile']);
+    Route::get('form-bao-cao-thanh-cong-fuge', [\App\Http\Controllers\FugeController::class, 'thanhCong'])->name('form.thanhcongFuge');
+    Route::get('fuge/lich-su-bao-cao', [\App\Http\Controllers\FugeController::class, 'lichSuUpload'])->name('fuge.lichsu');
     Route::get('form-bao-cao-thi', [\App\Http\Controllers\FormBaoCaoThiController::class, 'index'])->name('form.baocaothi');
     Route::post('form-bao-cao-thi', [\App\Http\Controllers\FormBaoCaoThiController::class, 'postBaoCaoThi']);
 
@@ -34,11 +38,6 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('fuge', [\App\Http\Controllers\FugeController::class, 'index'])->name('fuge.upload');
-    Route::post('fuge', [\App\Http\Controllers\FugeController::class, 'postFugeFile']);
-    Route::get('fuge/lich-su-bao-cao', [\App\Http\Controllers\FugeController::class, 'lichSuUpload'])->name('fuge.lichsu');
-
-    Route::get('quanlifuge', [\App\Http\Controllers\DashboardController::class, 'quanlifuge'])->name('quanlifuge');
     Route::group(['prefix' => 'ky-hoc'], function (){
         Route::get('', [\App\Http\Controllers\DotThiController::class, 'index_ky_hoc'])->name('ky-hoc.index');
         Route::get('add', [\App\Http\Controllers\DotThiController::class, 'add_ky_hoc'])->name('ky_hoc.add');
@@ -52,5 +51,13 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
        Route::get('sua', [\App\Http\Controllers\DotThiController::class, 'editForm'])->name('dotthi.edit');
        Route::post('sua', [\App\Http\Controllers\DotThiController::class, 'updateForm']);
        Route::delete('xoa', [\App\Http\Controllers\DotThiController::class, 'deleteForm'])->name('dotthi.delete');
+    });
+
+    Route::get('giangvien', [\App\Http\Controllers\UserController::class, 'index'])->name('giangvien.list');
+
+    Route::group(['prefix' => 'fuge'], function (){
+        Route::get('danhsachupload', [\App\Http\Controllers\FugeController::class, 'danhSachUpload'])->name('fuge.danhsachupload');
+        Route::get('file-fuge/{id}', [\App\Http\Controllers\FugeController::class, 'taiFileFuge'])
+            ->name('fuge.download');
     });
 });

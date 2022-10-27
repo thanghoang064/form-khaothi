@@ -1,4 +1,4 @@
-@extends('layouts.admin.master')
+@extends('layouts.clients.master')
 @section('style-custom')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{asset('styles/form-bao-cao-thi.css')}}">
@@ -7,38 +7,8 @@
     <div class="container px-5 my-5 ">
         <div class="row">
             <div class="col-md-10 offset-md-1 card-form pb-5 pt-5">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h3>Upload file fuge</h3>
-                        <p>This's form to upload fuge file</p>
-                    </div>
-                    <div class="" id="navbarSupportedContent">
-                        <ul class="navbar-nav d-flex flex-row mb-2 mb-lg-0 ms-auto">
-                            <li class="nav-item me-4">
-                                <a class="nav-link active" aria-current="page" href="{{route('fuge.lichsu')}}">Lịch sử upload</a>
-                            </li>
-                            <li class="nav-item me-4">
-                                <a class="nav-link" href="{{route('fuge.upload')}}">Upload file mới</a>
-                            </li>
-                            @guest
-                                <li class="nav-item me-4">
-                                    <a class="nav-link" href="{{route('login')}}">Đăng nhập</a>
-                                </li>
-                            @endguest
-                            @auth
-                                <li class="nav-item me-4 dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                       aria-expanded="false">
-                                        {{\Illuminate\Support\Facades\Auth::user()->name}}
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{route('logout')}}">Đăng xuất</a></li>
-                                    </ul>
-                                </li>
-                            @endauth
-                        </ul>
-                    </div>
-                </div>
+                <h3>Upload file fuge</h3>
+                <p>This's form to upload fuge file</p>
                 <form id="fugeForm" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
