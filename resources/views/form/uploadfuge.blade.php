@@ -56,13 +56,13 @@
                 rules: {
                     file_fuge: {
                         required: true,
-                        // extension: "xls|xlsx"
+                        extension: "fg"
                     },
                 },
                 messages: {
                     file_fuge: {
                         required: "Hãy chọn file fuge",
-                        // extension: "Chọn đúng định dạng file excel (xls|xlsx)"
+                        extension: "Chọn đúng định dạng file fg"
                     },
                 }
             })

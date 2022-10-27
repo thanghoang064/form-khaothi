@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 class FugeController extends Controller
 {
@@ -30,15 +31,18 @@ class FugeController extends Controller
 
 
         $dirName = 'public/uploads/fuge/hoc-ky-' . str_replace(' ', '-', mb_strtolower($kyhoc->name)) . '/' . $username;
-        $nameFile = $request->file('file_fuge')->getClientOriginalName();
+        $nameFile = date("d_m_Y_H_i_s").'-' .$request->file('file_fuge')->getClientOriginalName();
+        $text = strlen($nameFile);
+        $code = substr($nameFile, $text - 3);
         $filePath = $request->file('file_fuge')->storeAs($dirName, $nameFile);
-
         $model = new Fuge();
         $model->user_id = $user->id;
         $model->hoc_ky_id = $kyhoc->id;
         $model->file_name = $filePath;
         $model->save();
         return redirect(route('form.thanhcongFuge'));
+
+
     }
 
     public function thanhCong()
@@ -62,7 +66,7 @@ class FugeController extends Controller
         foreach ($kyhoc as $kh) {
             $arrKyHoc[$kh->id] = $kh->name;
         }
-        return view('admin.fuge.danh-sach-upload', compact('user', 'danhsach', 'arrKyHoc'));
+        return view('admin.fuge.danh-sach-upload', compact('user', 'danhsach', 'arrKyHoc', 'test'));
     }
 
     public function lichSuUpload()

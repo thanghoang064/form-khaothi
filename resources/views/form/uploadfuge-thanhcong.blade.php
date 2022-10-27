@@ -9,7 +9,7 @@
         </div>
         <h2 class="text-center success-msg">Upload file fuge thành công</h2>
         <p class="text-center " style="color: #05058B;">
-            Thầy cô muốn tiếp tục gửi báo cáo ca khác? <a style="color: #ff9000;" href="{{route('form.uploadfuge')}}">Bấm vào đây.</a>
+            Thầy cô muốn tiếp tục gửi file fuge khác? <a style="color: #ff9000;" href="{{route('form.uploadfuge')}}">Bấm vào đây.</a>
         </p>
 
     </div>

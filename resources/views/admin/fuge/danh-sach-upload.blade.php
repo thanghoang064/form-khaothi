@@ -10,7 +10,7 @@
                 <select name="ky_hoc" class="form-select me-3" id="">
                     <option value=""> -- Chọn kỳ học --</option>
                     @foreach($arrKyHoc as $id => $kh)
-                        <option value="{{ $id }}">
+                        <option value="{{ $id }}" @if ($test == $id) selected @endif>
                             {{ $kh }}
                         </option>
                     @endforeach
