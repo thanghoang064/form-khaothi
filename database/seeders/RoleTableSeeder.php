@@ -17,7 +17,8 @@ class RoleTableSeeder extends Seeder
     {
         $data = [
             ['name' => 'Giảng viên'],
-            ['name' => ' Quản trị']
+            ['name' => 'Khảo thí'],
+            ['name' => 'Chủ nhiệm bộ môn']
         ];
         DB::table('roles')->insert($data);
     }

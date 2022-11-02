@@ -5,16 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\KyHoc;
 use Illuminate\Http\Request;
 
+use App\Rules\CheckExam;
+
 class HocKyController extends Controller
 {
     public function __construct() {
         date_default_timezone_set("Asia/Ho_Chi_Minh");
     }
 
-    public function index_ky_hoc(){
+    public function index_ky_hoc(Request $request){
         $model = new KyHoc();
-        $datas = KyHoc::all();
-        return view('admin.kyhoc.index',compact('datas'));
+        $datas = KyHoc::paginate(5);
+        if(isset($request->name_search)){
+            $data_name = $request->name_search;
+            $datas = KyHoc::where('name','like','%'.$data_name.'%')->paginate(5);
+        }
+        $paginate = $request->all();
+        return view('admin.kyhoc.index',compact('datas','paginate'));
     }
 
     public function add_ky_hoc(){
@@ -22,10 +29,12 @@ class HocKyController extends Controller
     }
 
     public function new_ky_hoc(request $request){
+//        unique:ky_hoc,name,{$request->name}
         $request->validate(
-            ['name_ky_hoc'=> 'required|min:6',
+            ['name_ky_hoc'=> ['required',new CheckExam(),'min:6'],
             ],
             [
+                'unique' => 'Đã tồn tại kì học',
                 'required' => 'Không để trống tên kỳ học',
                 'min' => 'Chiều dài tối thiểu :min kí tự'
             ]

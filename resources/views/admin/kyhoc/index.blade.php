@@ -1,9 +1,32 @@
 @extends('layouts.admin.master')
 @section('module-name', "Kỳ học")
 @section('page-name', 'Danh sách kì học')
+@section('page-style')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function delete_ky_hoc(url){
+            $.get(url, function(){
+                location.reload();
+            });
+        }
+    </script>
+@endsection
 @section('content')
     <div class="card card-flush pt-5 pb-5">
+
         <div class="card-body">
+            <div>
+                <form action="" method="get">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="name_search" id="giangvien" placeholder="Nhập tên kỳ học" required>
+                            </div>
+                        </div>
+                        <div class="col-4"><button type="submit" class="btn btn-primary">Tìm kiếm</button></div>
+                    </div>
+                </form>
+            </div>
             <table class="table table-hover table-responsive text-center">
                 <thead>
                 <th>Id</th>
@@ -42,18 +65,16 @@
                             <a href="{{route('ky_hoc.edit')}}?id={{$item->id}}" class="btn btn-sm btn-info" title="Chỉnh sửa">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <form method="POST" action="{{ route('ky_hoc.delete',[$item->id]) }}" style="display: inline-block;">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" id="delete_ky_hoc" title="Xóa">
+                                <button type="button" onclick="confirm('Bạn có chắc chắn muốn xóa không ?') ? delete_ky_hoc('{{route('ky_hoc.delete')}}' + '?id=' + '{{$item->id}}') : ''" class="btn btn-sm btn-danger" id="delete_ky_hoc" title="Xóa">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            {{ $datas->appends($paginate)->links() }}
         </div>
     </div>
 
