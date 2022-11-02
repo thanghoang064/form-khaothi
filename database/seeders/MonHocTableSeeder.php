@@ -134,7 +134,7 @@ class MonHocTableSeeder extends Seeder
             ['name' => 'SOF3031_Kiểm thử cơ bản', 'bo_mon_id' => 8],
             ['name' => 'SOF307_Cấu trúc dữ liệu và giải thuật', 'bo_mon_id' => 8],
         ];
-        DB::table('mon_hoc')->insert($data);
+//        DB::table('mon_hoc')->insert($data);
 
     }
 }

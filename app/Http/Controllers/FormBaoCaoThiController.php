@@ -6,6 +6,9 @@ use App\Models\BoMon;
 use App\Models\DotThi;
 use App\Models\LuotBaoCaoThi;
 use App\Models\Monhoc;
+use App\Models\MonDotThi;
+use App\Models\LopDotThi;
+use App\Models\CaDotThi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,33 +16,68 @@ use Illuminate\Support\Facades\Storage;
 
 class FormBaoCaoThiController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        $luotbaocao = LuotBaoCaoThi::all();
+        $mon_hoc_imon_hoc_idd = [];
+        $ten_lop = [];
+        $ngay_thi = [];
+        $ca_thi = [];
+        foreach ($luotbaocao as $row) {
+            $mon_hoc_id[] = $row->mon_hoc_id ?? "";
+            $ten_lop[] = $row->ten_lop ?? "";
+            $ngay_thi[] = $row->ngay_thi ?? "";
+            $ca_thi[] = $row->ca_thi ?? "";
+        }
+
         $bomon = BoMon::all();
         $dotthi = DotThi::where('status', 1)->first();
-        $monhoc = Monhoc::where('status', 1)->get();
-        return view('form.baocaothi', compact('bomon', 'monhoc', 'dotthi'));
+        $mondotthi = MonDotThi::select('mon_hoc.*')
+            ->leftJoin('mon_hoc', 'mon_dot_thi.mon_hoc_id', '=', 'mon_hoc.id')
+            ->where('mon_dot_thi.dot_thi_id', $dotthi->id)
+            ->get();
+        $lopdotthi = LopDotThi::select('lop_dot_thi.name', 'mon_hoc.id as mon_hoc_id')
+            ->join('mon_dot_thi', 'lop_dot_thi.mon_dot_thi_id', '=', 'mon_dot_thi.id')
+            ->leftJoin('mon_hoc', 'mon_dot_thi.mon_hoc_id', '=', 'mon_hoc.id')
+            ->where('lop_dot_thi.dot_thi_id', $dotthi->id)
+            ->get();
+        $cadotthi = CaDotThi::select('ca_dot_thi.ngay_thi', 'ca_thi.id as ca_thi_id', 'ca_thi.name', 'lop_dot_thi.name as ten_lop', 'mon_hoc.id as mon_hoc_id')
+            ->join('lop_dot_thi', 'ca_dot_thi.lop_dot_thi_id', '=', 'lop_dot_thi.id')
+            ->join('ca_thi', 'ca_dot_thi.ca_thi_id', '=', 'ca_thi.id')
+            ->join('mon_dot_thi', 'lop_dot_thi.mon_dot_thi_id', '=', 'mon_dot_thi.id')
+            ->join('mon_hoc', 'mon_dot_thi.mon_hoc_id', '=', 'mon_hoc.id')
+            ->where('lop_dot_thi.dot_thi_id', $dotthi->id)
+//            ->whereNotIn('lop_dot_thi.name', $ten_lop)
+//            ->whereNotIn('ca_thi_id', $ca_thi)
+//            ->whereNotIn('ca_dot_thi.ngay_thi', $ngay_thi)
+//            ->whereNotIn('mon_hoc_id', $mon_hoc_id)
+            ->get();
+        return view('form.baocaothi', compact('bomon', 'mondotthi', 'lopdotthi', 'cadotthi', 'dotthi'));
     }
 
-    public function postBaoCaoThi(Request $request){
+    public function postBaoCaoThi(Request $request)
+    {
 
         $bomon = BoMon::find($request->bo_mon);
         $monhoc = Monhoc::find($request->mon_hoc_id);
         $dotthi = DotThi::where('status', 1)->first();
-        $ngaythi = Carbon::createFromFormat('d/m/Y', $request->ngay_thi)->format('Y-m-d');
+        [$ca_thi, $ngaythi] = explode('|', $request->ca_thi);
+//        $ngaythi = Carbon::createFromFormat('d/m/Y', $request->ngay_thi)->format('Y-m-d');
         $model = LuotBaoCaoThi::where('mon_hoc_id', $request->mon_hoc_id)
-                                ->where('ngay_thi', $ngaythi)
-                                ->where('ca_thi', $request->ca_thi)
-                                ->where('ten_lop', mb_strtoupper(trim($request->ten_lop)))
-                                ->first();
+            ->where('ngay_thi', $ngaythi)
+            ->where('ca_thi', $ca_thi)
+            ->where('ten_lop', mb_strtoupper(trim($request->ten_lop)))
+            ->first();
 
         $dirName = 'file-thi-10b/' . $dotthi->name . '/' . $bomon->name . '/' . $monhoc->name . '/' . mb_strtoupper(trim($request->ten_lop));
-        $dirName .= str_replace('-', '_', $ngaythi) . ".ca-" . $request->ca_thi;
+        $dirName .= '/' . str_replace('-', '_', $ngaythi) . ".ca-" . $ca_thi;
+        dd($dirName);
         $googleDisk = Storage::disk('google');
-        $filePath = $googleDisk->put($dirName , $request->file('file_excel'));
+        $filePath = $googleDisk->put($dirName, $request->file('file_excel'));
 
-        if($model){
+        if ($model) {
             $googleDisk->delete($model->file_10b);
-        }else{
+        } else {
             $model = new LuotBaoCaoThi();
         }
         $model->fill($request->all());
@@ -51,30 +89,33 @@ class FormBaoCaoThiController extends Controller
         return redirect(route('form.thanhcong'));
     }
 
-    public function thanhCong(){
+    public function thanhCong()
+    {
         return view('form.baocaothi-thanhcong');
     }
 
-    public function lichSuBaoCao(){
+    public function lichSuBaoCao()
+    {
         $user = Auth::user();
         $dotthi = DotThi::where('status', 1)->first();
         $ketqua = LuotBaoCaoThi::where('email_gv', $user->email)
-                        ->where('dot_thi_id', $dotthi->id)
-                        ->orderByDesc('ngay_thi')
-                        ->orderBy('ca_thi')->get();
+            ->where('dot_thi_id', $dotthi->id)
+            ->orderByDesc('ngay_thi')
+            ->orderBy('ca_thi')->get();
         $ketqua->load('monhoc');
         return view('form.baocaothi-lichsu', compact('ketqua', 'dotthi'));
 
     }
 
-    public function taiFileBaocao($luotbaocao){
+    public function taiFileBaocao($luotbaocao)
+    {
         $luotBaoCao = LuotBaoCaoThi::find($luotbaocao);
         $fileInfo = pathinfo($luotBaoCao->file_10b);
         $ext = $fileInfo['extension'];
-        $downloadFileName = $luotBaoCao->ten_lop . '_'. $luotBaoCao->ngay_thi . "_ca-" . $luotBaoCao->ca_thi . '.' .$ext;
+        $downloadFileName = $luotBaoCao->ten_lop . '_' . $luotBaoCao->ngay_thi . "_ca-" . $luotBaoCao->ca_thi . '.' . $ext;
         $googleDisk = Storage::disk('google');
-        $file  = $googleDisk->get($luotBaoCao->file_10b);
-        return response()->streamDownload(function() use ($file){
+        $file = $googleDisk->get($luotBaoCao->file_10b);
+        return response()->streamDownload(function () use ($file) {
             echo $file;
         }, $downloadFileName);
 //        dd($path);
