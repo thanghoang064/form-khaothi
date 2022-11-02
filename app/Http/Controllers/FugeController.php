@@ -16,7 +16,6 @@ class FugeController extends Controller
 {
     public function index()
     {
-
         $kyhoc = KyHoc::all();
 //        dd(\Illuminate\Support\Facades\Auth::user());
         return view('form.uploadfuge', compact('kyhoc'));

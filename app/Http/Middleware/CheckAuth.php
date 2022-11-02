@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Role_Admin
+class CheckAuth
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,10 @@ class Role_Admin
      */
     public function handle(Request $request, Closure $next)
     {
-//        if(!Auth::check() || Auth::user()->role_id != 1  ){
-//            Auth::logout();
-//            return redirect(route('login'))->with('msg', 'Bạn không có quyền truy cập');
-//        }
+            if(!Auth::check() || Auth::user()->role_id != 1){
+            Auth::logout();
+            return redirect(route('login'));
+        }
         return $next($request);
     }
 }

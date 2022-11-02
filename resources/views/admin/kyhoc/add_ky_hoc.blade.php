@@ -11,7 +11,7 @@
                         <label for="">Tên kỳ học<span class="text-danger">*</span></label>
                         <input type="text" name="name_ky_hoc" value="{{old('name')}}" class="form-control">
                         @error('name_ky_hoc')
-                        <span class="text-danger">{{$message}}</span>
+                        <div   id="emailHelp" class="form-text alert alert-danger">{{$message}}</div>
                         @enderror
                     </div>
                     <div class="d-flex justify-content-end mb-3">
