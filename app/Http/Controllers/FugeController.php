@@ -74,7 +74,7 @@ class FugeController extends Controller
         $ketqua = Fuge::where('user_id', $user->id)
             ->orderBy('id')->get();
         $ketqua->load('monhoc');
-        return view('form.baocaothi-lichsu', compact('ketqua', 'dotthi'));
+        return view('form.baocaothi-lichsu', compact('ketqua', ));
 
     }
 
