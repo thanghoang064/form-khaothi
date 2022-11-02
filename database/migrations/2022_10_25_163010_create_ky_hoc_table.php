@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('ky_hoc', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->bigInteger('status')->default(1);
             $table->timestamps();
         });
     }

@@ -15,11 +15,12 @@ class HocKyController extends Controller
 
     public function index_ky_hoc(Request $request){
         $model = new KyHoc();
-        $datas = KyHoc::paginate(5);
+        $datas = KyHoc::whereNot('status',0)->paginate(5);
         if(isset($request->name_search)){
             $data_name = $request->name_search;
-            $datas = KyHoc::where('name','like','%'.$data_name.'%')->paginate(5);
+            $datas = KyHoc::where('name','like','%'.$data_name.'%')->whereNot('status',0)->paginate(5);
         }
+
         $paginate = $request->all();
         return view('admin.kyhoc.index',compact('datas','paginate'));
     }
@@ -79,9 +80,10 @@ class HocKyController extends Controller
     }
 
     public function delete(request $request){
-        new KyHoc();
-        KyHoc::find($request->id)
-            ->delete();
+        KyHoc::where('id',$request->id)
+            ->update(
+                ["status" => 0]
+            );
         return redirect(route('ky-hoc.index'));
     }
 }
