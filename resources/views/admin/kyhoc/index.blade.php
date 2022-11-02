@@ -65,7 +65,9 @@
                             <a href="{{route('ky_hoc.edit')}}?id={{$item->id}}" class="btn btn-sm btn-info" title="Chỉnh sửa">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                                @csrf
+{{--                            location.href='{{route('ky_hoc.delete')}}?id={{$item->id}}'--}}
+
+                            @csrf
                                 <button type="button" onclick="confirm('Bạn có chắc chắn muốn xóa không ?') ? delete_ky_hoc('{{route('ky_hoc.delete')}}' + '?id=' + '{{$item->id}}') : ''" class="btn btn-sm btn-danger" id="delete_ky_hoc" title="Xóa">
                                     <i class="fa fa-trash"></i>
                                 </button>

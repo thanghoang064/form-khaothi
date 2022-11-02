@@ -52,8 +52,6 @@ class FugeController extends Controller
     public function danhSachUpload(Request $request)
     {
         $test = $request->ky_hoc;
-
-        $id = $request->id;
         $user = User::find($request->id);
         $kyhoc = KyHoc::all();
         $list = Fuge::where('user_id', $user->id);
