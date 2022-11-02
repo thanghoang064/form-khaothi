@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             MonHocTableSeeder::class,
             RoleTableSeeder::class,
             UserTableSeeder::class,
+            CaThiTableSeeder::class,
         ]);
     }
 }
