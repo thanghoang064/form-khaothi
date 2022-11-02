@@ -36,7 +36,12 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
-        return redirect(route('form.baocaothi'));
+
+        if(Auth::user()->role_id == 1){
+            return redirect(route('form.baocaothi'));
+        }else {
+            return redirect(route('dashboard'));
+        }
     }
 
     public function logout(){
