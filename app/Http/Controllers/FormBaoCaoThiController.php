@@ -18,17 +18,11 @@ class FormBaoCaoThiController extends Controller
 {
     public function index()
     {
-        $luotbaocao = LuotBaoCaoThi::all();
-        $mon_hoc_imon_hoc_idd = [];
-        $ten_lop = [];
-        $ngay_thi = [];
-        $ca_thi = [];
-        foreach ($luotbaocao as $row) {
-            $mon_hoc_id[] = $row->mon_hoc_id ?? "";
-            $ten_lop[] = $row->ten_lop ?? "";
-            $ngay_thi[] = $row->ngay_thi ?? "";
-            $ca_thi[] = $row->ca_thi ?? "";
-        }
+        $luotbaocao = LuotBaoCaoThi::all()->toArray();
+        $luotbaocaoArr = array_map(function ($row) {
+            extract($row);
+            return implode('|', [$mon_hoc_id, $ten_lop, $ngay_thi, $ca_thi]);
+        }, $luotbaocao);
 
         $bomon = BoMon::all();
         $dotthi = DotThi::where('status', 1)->first();
@@ -38,7 +32,7 @@ class FormBaoCaoThiController extends Controller
             ->get();
         $lopdotthi = LopDotThi::select('lop_dot_thi.name', 'mon_hoc.id as mon_hoc_id')
             ->join('mon_dot_thi', 'lop_dot_thi.mon_dot_thi_id', '=', 'mon_dot_thi.id')
-            ->leftJoin('mon_hoc', 'mon_dot_thi.mon_hoc_id', '=', 'mon_hoc.id')
+            ->join('mon_hoc', 'mon_dot_thi.mon_hoc_id', '=', 'mon_hoc.id')
             ->where('lop_dot_thi.dot_thi_id', $dotthi->id)
             ->get();
         $cadotthi = CaDotThi::select('ca_dot_thi.ngay_thi', 'ca_thi.id as ca_thi_id', 'ca_thi.name', 'lop_dot_thi.name as ten_lop', 'mon_hoc.id as mon_hoc_id')
@@ -47,11 +41,13 @@ class FormBaoCaoThiController extends Controller
             ->join('mon_dot_thi', 'lop_dot_thi.mon_dot_thi_id', '=', 'mon_dot_thi.id')
             ->join('mon_hoc', 'mon_dot_thi.mon_hoc_id', '=', 'mon_hoc.id')
             ->where('lop_dot_thi.dot_thi_id', $dotthi->id)
-//            ->whereNotIn('lop_dot_thi.name', $ten_lop)
-//            ->whereNotIn('ca_thi_id', $ca_thi)
-//            ->whereNotIn('ca_dot_thi.ngay_thi', $ngay_thi)
-//            ->whereNotIn('mon_hoc_id', $mon_hoc_id)
             ->get();
+        foreach ($cadotthi as $key => $cdt) {
+            $dot_thi_info = implode('|', [$cdt->mon_hoc_id, $cdt->ten_lop, $cdt->ngay_thi, $cdt->ca_thi_id]);
+            if (in_array($dot_thi_info, $luotbaocaoArr)) {
+                unset($cadotthi[$key]);
+            }
+        }
         return view('form.baocaothi', compact('bomon', 'mondotthi', 'lopdotthi', 'cadotthi', 'dotthi'));
     }
 
@@ -71,7 +67,7 @@ class FormBaoCaoThiController extends Controller
 
         $dirName = 'file-thi-10b/' . $dotthi->name . '/' . $bomon->name . '/' . $monhoc->name . '/' . mb_strtoupper(trim($request->ten_lop));
         $dirName .= '/' . str_replace('-', '_', $ngaythi) . ".ca-" . $ca_thi;
-        dd($dirName);
+//        dd($dirName);
         $googleDisk = Storage::disk('google');
         $filePath = $googleDisk->put($dirName, $request->file('file_excel'));
 
@@ -85,6 +81,7 @@ class FormBaoCaoThiController extends Controller
         $model->email_gv = Auth::user()->email;
         $model->file_10b = $filePath;
         $model->ngay_thi = $ngaythi;
+        $model->ca_thi = $ca_thi;
         $model->save();
         return redirect(route('form.thanhcong'));
     }

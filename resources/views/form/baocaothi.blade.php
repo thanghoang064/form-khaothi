@@ -152,7 +152,8 @@
     <script>
         const monhoc = @json($mondotthi);
         const lophoc = @json($lopdotthi);
-        const cathi = @json($cadotthi);
+        const cathiObj = @json($cadotthi);
+        cathi = Object.values(cathiObj);
 
         $(document).ready(function () {
             $('#ngayThi').flatpickr({
