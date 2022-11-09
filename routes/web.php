@@ -38,7 +38,7 @@ Route::any('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->n
 Route::get('auth/fakelogin', [\App\Http\Controllers\AuthController::class, 'fakeLogin'])->name('login.fake');
 Route::group(['middleware' => 'auth'], function(){
     Route::get('giangvien', [\App\Http\Controllers\UserController::class, 'index'])->name('giangvien.list');
-
+    Route::post('giangvien', [\App\Http\Controllers\UserController::class, 'status']);
     Route::group(['prefix' => 'fuge'], function (){
         Route::get('danhsachupload', [\App\Http\Controllers\FugeController::class, 'danhSachUpload'])->name('fuge.danhsachupload');
         Route::get('file-fuge/{id}', [\App\Http\Controllers\FugeController::class, 'taiFileFuge'])

@@ -13,7 +13,9 @@
 @endsection
 @section('content')
     <div class="card card-flush pt-5 pb-5">
-
+        @if (session('status'))
+            <div id="emailHelp" class="form-text alert alert-success mx-5">{{ session('status') }}</div>
+        @endif
         <div class="card-body">
             <div>
                 <form action="" method="get">
@@ -47,8 +49,8 @@
                     <tr >
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->created_at == "" ? "Chưa có thời gian tạo" : $item->created_at }}</td>
-                        <td>{{ $item->updated_at == "" ? "Chưa có thời gian cập nhật" : $item->updated_at }}</td>
+                        <td>{{  $item->created_at == "" ? "Chưa có thời gian tạo" : date('d-m-Y / h:i A', strtotime($item->created_at))}}</td>
+                        <td>{{ $item->updated_at == "" ? "Chưa có thời gian cập nhật" : date('d-m-Y / h:i A', strtotime($item->updated_at)) }}</td>
                         <td>
                             <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end show menu-dropdown" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen023.svg-->
