@@ -44,10 +44,10 @@
                     <div class="row">
                         <div class="mb-3 col">
                             <label class="form-label" for="monHọc">Lớp học<span class="text-danger">*</span></label>
-                            <select class="form-select" name="ten_lop" onchange="list_ca_thi(this.value)" id="lớp"
+                            <select class="form-select" name="lop" onchange="list_ca_thi(this.value)" id="lớp"
                                     aria-label="Lớp học">
                                 @foreach($lopdotthi as $lop)
-                                    <option value="{{$lop->name}}">{{$lop->name}}</option>
+                                    <option value="{{$lop->id.'|'.$lop->name}}">{{$lop->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -72,11 +72,11 @@
                         </div>
                     </div>
                     <div class="row">
-{{--                        <div class="mb-3 col">--}}
-{{--                            <label class="form-label" for="ngayThi">Ngày thi<span class="text-danger">*</span></label>--}}
-{{--                            <input class="form-control" id="ngayThi" name="ngay_thi" type="text"--}}
-{{--                                   placeholder="DD/MM/YYYY" data-sb-validations="required"/>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="mb-3 col">--}}
+                        {{--                            <label class="form-label" for="ngayThi">Ngày thi<span class="text-danger">*</span></label>--}}
+                        {{--                            <input class="form-control" id="ngayThi" name="ngay_thi" type="text"--}}
+                        {{--                                   placeholder="DD/MM/YYYY" data-sb-validations="required"/>--}}
+                        {{--                        </div>--}}
                         <div class="mb-3 col">
                             <label class="form-label" for="caThi">Ca thi<span class="text-danger">*</span></label>
                             <select class="form-select" id="caThi" name="ca_thi"
@@ -152,8 +152,7 @@
     <script>
         const monhoc = @json($mondotthi);
         const lophoc = @json($lopdotthi);
-        const cathiObj = @json($cadotthi);
-        cathi = Object.values(cathiObj);
+        const cathi = @json($cadotthi);
 
         $(document).ready(function () {
             $('#ngayThi').flatpickr({
@@ -171,7 +170,7 @@
                     ngay_thi: {
                         required: true
                     },
-                    ten_lop: {
+                    lop: {
                         required: true
                     },
                     file_excel: {
@@ -202,7 +201,7 @@
                     ngay_thi: {
                         required: "Hãy chọn ngày thi"
                     },
-                    ten_lop: {
+                    lop: {
                         required: "Hãy nhập tên lớp"
                     },
                     file_excel: {
@@ -241,18 +240,19 @@
         }
 
         function list_lop_hoc(monHocId) {
-            tenLopElement = $('select[name="ten_lop"]');
+            tenLopElement = $('select[name="lop"]');
             const lstLopHocFil = lophoc.filter(item => item.mon_hoc_id == monHocId).sort((a, b) => {
                 return a.name.localeCompare(b.name);
             });
-            const lstLopHoc = lstLopHocFil.map(e => `<option value="${e.name}">${e.name}</option>`);
+            const lstLopHoc = lstLopHocFil.map(e => `<option value="${e.id}|${e.name}">${e.name}</option>`);
             tenLopElement.html(lstLopHoc);
             list_ca_thi(tenLopElement.val());
         }
 
-        function list_ca_thi(tenLop) {
-            monHocId = $('select[name="mon_hoc_id"]').val();
-            caThiElement = $('select[name="ca_thi"]');
+        function list_ca_thi(lop) {
+            const [, tenLop] = lop.split('|');
+            const monHocId = $('select[name="mon_hoc_id"]').val();
+            const caThiElement = $('select[name="ca_thi"]');
             const lstCaThiFil = cathi.filter(item => item.mon_hoc_id == monHocId && item.ten_lop == tenLop).sort((a, b) => {
                 return a.ngay_thi.localeCompare(b.ngay_thi);
             });
