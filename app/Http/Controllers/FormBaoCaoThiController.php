@@ -110,7 +110,8 @@ class FormBaoCaoThiController extends Controller
         $diemSinhVienAdd = [];
         foreach ($diemSinhVienConThieu as $ma_sinh_vien => $item) {
             [$sinh_vien_id, $lop_dot_thi_id] = explode('_', $item);
-            $diem = $diemThi[$ma_sinh_vien];
+            $diem = $diemThi[$ma_sinh_vien] ?? null;
+            if ($diem === "" || $diem === null): continue; endif;
             $diemSinhVien = [];
             $diemSinhVien['sinh_vien_id'] = $sinh_vien_id;
             $diemSinhVien['lop_dot_thi_id'] = $lop_dot_thi_id;
