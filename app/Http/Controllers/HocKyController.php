@@ -40,7 +40,8 @@ class HocKyController extends Controller
                 'min' => 'Chiều dài tối thiểu :min kí tự'
             ]
         );
-        $date = date('Y-m-d h:i:s');
+        $date = date('Y-m-d H:i:s');
+
         $model = new KyHoc();
         KyHoc::insert(
             [
@@ -59,7 +60,7 @@ class HocKyController extends Controller
     }
 
     public function update_ky_hoc(request $request){
-        $date = date('Y-m-d h:i:s');
+        $date = date('Y-m-d H:i:s');
         $rules = [
             'name_ky_hoc' => 'required|min:6',
         ];

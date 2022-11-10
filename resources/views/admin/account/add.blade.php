@@ -4,8 +4,8 @@
 @section('content')
     <div class="container-xxl">
         <div class="card pt-5 pb-5">
-            @if (Session::has('msg'))
-                <div id="emailHelp" class="form-text alert alert-success mx-5">{{session('msg')}}</div>
+            @if (isset($update_chucvu))
+                <div id="emailHelp" class="form-text alert alert-success mx-5">{{$update_chucvu}}</div>
             @endif
             <form action="" method="post">
                 @csrf
