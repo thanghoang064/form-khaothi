@@ -26,7 +26,7 @@
                     <tr>
                         <td>{{$dt->name}}</td>
                         <td>{{$dt->sheet_id}}</td>
-                        <td>{{$dt->statu == 1 ? "Active" : "Inactive"}}</td>
+                        <td>{{$dt->status == 1 ? "Active" : "Inactive"}}</td>
                         <td>{{$dt->trang_thai_dong_bo == 1 ? "Đã đồng bộ" : "Đang đồng bộ"}}</td>
                         <td>
                             @if(count($dt->dong_bo_dot_thi) == 0)
