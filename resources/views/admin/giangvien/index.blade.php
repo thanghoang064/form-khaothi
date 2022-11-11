@@ -43,11 +43,12 @@
                                 location.reload();
                             },
                             error:function(){
-                                console.log(response.status);
-                                console.log("Error")
+                                location.reload();
                             }
 
                         });
+                    }else {
+                        location.reload();
                     }
                 })
             })
