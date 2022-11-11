@@ -12,6 +12,9 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
+
+
+
 //        $status = null;
 //        if(isset($request->bomon_set)){
 //            $a = User::where('id',$request->id_set)
@@ -25,17 +28,17 @@ class UserController extends Controller
 //        }
         $bomon =  new BoMon;
         $roles = new Roles();
-        $users = User::paginate(5);
+        $users = User::paginate(10);
         $role_bomon_id = null;
         if(isset($request->name_search) ){
             $data_name = $request->name_search;
-            $users = User::where('name','like','%'.$data_name.'%')->orWhere('email','like', '%'.$data_name.'%')->paginate(5);
+            $users = User::where('name','like','%'.$data_name.'%')->orWhere('email','like', '%'.$data_name.'%')->paginate(10);
         }else if(isset($request->bomon)){
             if(!$request->bomon == 0){
                 $role_bomon_id = $request->bomon;
-                $users = User::where('role_bomon', $role_bomon_id)->paginate(5);
+                $users = User::where('role_bomon', $role_bomon_id)->paginate(10);
             }else {
-                $users = User::paginate(5);
+                $users = User::paginate(10);
             }
         }
         $user_account = Auth::user();
@@ -46,26 +49,42 @@ class UserController extends Controller
 
     }
 
+
     public function status(Request $request){
         if(!empty($request->all())){
-            $data = User::where("id",$request->item_id)
-                ->update(
-                    [
-                        'status' => $request->dataStatus
-                    ]
-                );
+            if($request->idAcc == 2){
+                User::where("id",$request->idUser)
+                    ->update(
+                        [
+                            'role_id' => 3,
+                            'role_bomon' => $request->idBoMon
+                        ]
+                    );
+            }else if($request->idAcc == 3){
+                $data = User::where("id",$request->item_id)
+                    ->update(
+                        [
+                            'role_bomon' => $request->dataStatus
+                        ]
+                    );
+
+                if ($data)
+                {
+                    $dataRes['statusButton'] = $request->item_id;
+                    $dataRes['status'] = 1;
+                    $dataRes['role_bomon'] =  $request->dataStatus;
+                    return response()->json($dataRes, 200);
+                }
+                else
+                {
+                    $dataRes['status'] = 0;
+                    $dataRes['role_bomon'] =  $request->dataStatus;
+                    return response()->json($dataRes, 200);
+                }
+            }
+
         }
-        if ($data)
-        {
-            $dataRes['statusButton'] = $request->item_id;
-            $dataRes['status'] = 1;
-            return response()->json($dataRes, 200);
-        }
-        else
-        {
-            $dataRes['status'] = 0;
-            return response()->json($dataRes, 200);
-        }
+
     }
 
 
