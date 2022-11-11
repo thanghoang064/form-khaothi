@@ -43,7 +43,8 @@
                                 location.reload();
                             },
                             error:function(){
-                                location.reload();
+                                console.log(response.status);
+                                console.log("Error")
                             }
 
                         });
