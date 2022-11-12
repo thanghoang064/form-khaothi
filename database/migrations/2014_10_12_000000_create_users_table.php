@@ -22,7 +22,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->bigInteger('role_bomon')->nullable()->default(1);
-            $table->bigInteger('status')->nullable()->default(0);
         });
     }
 
