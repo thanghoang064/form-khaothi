@@ -159,7 +159,6 @@
                 @if($user_account->role_id == 2)
                     @foreach($users as $user)
                     <tr>
-                        <td>{{$user->id}}</td>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
                         <td>{{$roles->find($user->role_id)->name}}</td>
