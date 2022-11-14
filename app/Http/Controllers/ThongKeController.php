@@ -12,25 +12,57 @@ use Illuminate\Support\Facades\Auth;
 
 class ThongKeController extends Controller
 {
+    public $hocKy;
+    public $hasHocKy;
 
+    public function __construct()
+    {
+        $this->hocKy = KyHoc::select('id', 'name')->where('status', '1')->orderBy('id', 'DESC')->first();
+        $this->hasHocKy = !empty($this->hocKy);
+    }
+
+    public function renderLoiThongKe()
+    {
+
+    }
 
     public function nhapDiem()
     {
-        $hocKy = KyHoc::select('id', 'name')->where('status', '1')->orderBy('id', 'DESC')->first();
-        $hocKyId = $hocKy->id;
-        $hocKyName = $hocKy->name;
+        if (!$this->hasHocKy) {
+            return view('admin.thongke.loi-thong-ke');
+        }
+        $hocKyId = $this->hocKy->id;
+        $hocKyName = $this->hocKy->name;
 //        $idGiangVienDaNhapDiem = Fuge::select('user_id')->where('hoc_ky_id', $hocKyId)->get();
 //        $soGiangVienTheoBoMon = User::select('count(*)')->groupBy('role_bo_mon')->get();
-        $soGiangVienDaNhapDiemTheoBoMon = DB::table('fuge')
-            ->select(DB::raw('users.role_bomon, count(users.role_bomon) as so_giang_vien_da_nhap_diem'))
-            ->join('users', 'users.id', "=", 'fuge.user_id')
-            ->groupBy('users.role_bomon')
-            ->get()->toArray();
-        $soGiangVienTheoBoMon = DB::table('users')
-            ->select(DB::raw('users.role_bomon, count(users.role_bomon) as so_giang_vien'))
-            ->groupBy('users.role_bomon')
-            ->get()->toArray();
+        $sql_giang_vien_da_nhap_diem_theo_bo_mon = "
+                select
+                    user_dupli.role_bomon,
+                    count(user_dupli.role_bomon) as so_giang_vien_da_nhap_diem
+                from fuge
+                inner join (select * from users where role_id = 1) as user_dupli on fuge.user_id = user_dupli.id
+                group by user_dupli.role_bomon
+                ";
+        $soGiangVienDaNhapDiemTheoBoMon = DB::select($sql_giang_vien_da_nhap_diem_theo_bo_mon);
+//        $soGiangVienDaNhapDiemTheoBoMon = DB::table('fuge')
+//            ->select(DB::raw('users.role_bomon, count(users.role_bomon) as so_giang_vien_da_nhap_diem'))
+//            ->join('users', 'users.id', "=", 'fuge.user_id')
+//            ->groupBy('users.role_bomon')
+//            ->get()->toArray();
 
+//        $soGiangVienTheoBoMon = DB::table('users')
+//            ->select(DB::raw('users.role_bomon, count(users.role_bomon) as so_giang_vien'))
+//            ->groupBy('users.role_bomon')
+//            ->havingRaw('users.role_id = ?', [1])
+//            ->get()->toArray();
+        $sql_giang_vien_theo_bo_mon = "
+                select
+                    t.role_bomon,
+                    count(t.role_bomon) as so_giang_vien
+                from (select * from users where role_id = 1) as t
+                group by t.role_bomon
+                ";
+        $soGiangVienTheoBoMon = DB::select($sql_giang_vien_theo_bo_mon);
         $soGiangVienDaNhapDiemTheoBoMonArr = [];
         foreach ($soGiangVienDaNhapDiemTheoBoMon as $gv) {
             $boMonId = $gv->role_bomon;
@@ -59,12 +91,15 @@ class ThongKeController extends Controller
                 'so_giang_vien_chua_nhap_diem' => $so_giang_vien_chua_nhap_diem,
             ];
         }
-        return view('admin.thongke.nhap-diem', compact('thongKeNhapDiemTheoBoMon', 'hocKyName'));
+        return view('admin.thongke.nhap-diem.nhap-diem', compact('thongKeNhapDiemTheoBoMon', 'hocKyName'));
     }
 
     public function nhapDiemTheoBoMon($idBoMon)
     {
-        $hocKyName = KyHoc::select('id', 'name')->where('status', '1')->orderBy('id', 'DESC')->first()->name;
+        if (!$this->hasHocKy) {
+            return view('admin.thongke.loi-thong-ke');
+        }
+        $hocKyName = $this->hocKy->name;
         $boMon = BoMon::select('id', 'name')
             ->where('id', $idBoMon)
             ->first();
@@ -73,6 +108,7 @@ class ThongKeController extends Controller
             ->select('users.id', 'users.name', 'users.email')
             ->join('users', 'users.id', "=", 'fuge.user_id')
             ->where('users.role_bomon', $boMon->id)
+            ->where('role_id', 1)
             ->get()->toArray();
 
         $giangVienDaNhapDiemCuaBoMonArr = $this->mergeGv($giangVienDaNhapDiemCuaBoMon);
@@ -80,6 +116,7 @@ class ThongKeController extends Controller
         $giangVienCuaBoMon = DB::table('users')
             ->select('users.id', 'users.name', 'users.email')
             ->where('users.role_bomon', $boMon->id)
+            ->where('role_id', 1)
             ->get()->toArray();
 
         $giangVienCuaBoMonArr = $this->mergeGv($giangVienCuaBoMon);
@@ -107,7 +144,7 @@ class ThongKeController extends Controller
             'tong_so' => $so_giang_vien_da_nhap_diem,
             'danh_sach' => $giangVienDaNhapDiemCuaBoMonArr
         ];
-        return view('admin.thongke.nhap-diem-theo-bo-mon', compact('giangVien', 'giangVienChuaNhap', 'giangVienDaNhap', 'boMon', 'hocKyName'));
+        return view('admin.thongke.nhap-diem.nhap-diem-theo-bo-mon', compact('giangVien', 'giangVienChuaNhap', 'giangVienDaNhap', 'boMon', 'hocKyName'));
     }
 
     public function handleGv($arr)
