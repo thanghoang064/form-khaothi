@@ -14,7 +14,8 @@
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "masbug/flysystem-google-drive-ext": "^2.2",
-        "phpoffice/phpspreadsheet": "^1.25"
+        "phpoffice/phpspreadsheet": "^1.25",
+        "realrashid/sweet-alert": "^5.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

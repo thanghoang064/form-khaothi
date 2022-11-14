@@ -29,7 +29,7 @@ class FugeController extends Controller
         $username = explode('@', $user->email)[0];
 
 
-        $dirName = 'public/uploads/fuge/hoc-ky-' . str_replace(' ', '-', mb_strtolower($kyhoc->name)) . '/' . $username;
+        $dirName = 'public/uploads/fuge/' . str_replace(' ', '-', mb_strtolower($kyhoc->name)) . '/' . $username;
         $nameFile = date("d_m_Y_H_i_s").'-' . $request->file('file_fuge')->getClientOriginalName();
         $text = strlen($nameFile);
         $code = substr($nameFile, $text - 3);
