@@ -2,8 +2,16 @@
 @section('style-custom')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{asset('styles/form-bao-cao-thi.css')}}">
+    <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
 @endsection
 @section('content')
+    @include('sweetalert::alert')
+    @if(Session::has('error'))
+        <script>
+            swal('Error!', '{{ Session::get('error') }}', 'error');
+        </script>
+        <?php Session::forget('error'); ?>
+    @endif
     <div class="container px-5 my-5 ">
         <div class="row">
             <div class="col-md-10 offset-md-1 card-form pb-5 pt-5">

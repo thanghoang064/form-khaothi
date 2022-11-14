@@ -72,6 +72,10 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
         Route::delete('xoa', [\App\Http\Controllers\DotThiController::class, 'deleteForm'])->name('dotthi.delete');
     });
 
+    Route::group(['prefix' => 'thong-ke'], function (){
+        Route::get('nhap-diem', [\App\Http\Controllers\ThongKeController::class, 'nhapDiem'])->name('nhap-diem');
+        Route::get('nhap-diem-theo-bo-mon/{idBoMon}', [\App\Http\Controllers\ThongKeController::class, 'nhapDiemTheoBoMon'])->name('nhap-diem-theo-bo-mon');
+    });
 
 });
 
