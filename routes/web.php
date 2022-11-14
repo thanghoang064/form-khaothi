@@ -58,7 +58,7 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
         Route::post('add', [\App\Http\Controllers\HocKyController::class, 'new_ky_hoc']);
         Route::get('edit', [\App\Http\Controllers\HocKyController::class, 'edit'])->name('ky_hoc.edit');
         Route::post('edit', [\App\Http\Controllers\HocKyController::class, 'update_ky_hoc']);
-        Route::get('delete', [\App\Http\Controllers\HocKyController::class, 'delete'])->name('ky_hoc.delete');
+//        Route::get('delete', [\App\Http\Controllers\HocKyController::class, 'delete'])->name('ky_hoc.delete');
     });
 
     Route::group(['prefix' => 'dot-thi'], function (){

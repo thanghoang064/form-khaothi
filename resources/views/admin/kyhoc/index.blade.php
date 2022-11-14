@@ -69,10 +69,10 @@
                             </a>
 {{--                            location.href='{{route('ky_hoc.delete')}}?id={{$item->id}}'--}}
 
-                            @csrf
-                                <button type="button" onclick="confirm('Bạn có chắc chắn muốn xóa không ?') ? delete_ky_hoc('{{route('ky_hoc.delete')}}' + '?id=' + '{{$item->id}}') : ''" class="btn btn-sm btn-danger" id="delete_ky_hoc" title="Xóa">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+{{--                            @csrf--}}
+{{--                                <button type="button" onclick="confirm('Bạn có chắc chắn muốn xóa không ?') ? delete_ky_hoc('{{route('ky_hoc.delete')}}' + '?id=' + '{{$item->id}}') : ''" class="btn btn-sm btn-danger" id="delete_ky_hoc" title="Xóa">--}}
+{{--                                    <i class="fa fa-trash"></i>--}}
+{{--                                </button>--}}
                         </td>
                     </tr>
                 @endforeach
