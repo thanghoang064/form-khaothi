@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class FormBaoCaoThiController extends Controller
 {
@@ -58,11 +59,29 @@ class FormBaoCaoThiController extends Controller
             'C' => 'ten_sinh_vien',
             'G' => 'diem'
         ];
-        $data = $this->handleExcelFile($request->file('file_excel'), $mainSheet, $colsGet, ['offset' => 7, 'colCheckEmpty' => 'B']);
-        [$thongTinSinhVien, $diemThi] = $this->handleData($data);
+        $temp = $this->handleExcelFile($request->file('file_excel'), $mainSheet, $colsGet, ['offset' => 7, 'colCheckEmpty' => 'B']);
 
-        // Lấy ra mã sinh viên lớn nhất
-        $maxMaSinhVien = SinhVien::where('id', \DB::raw("(select max(`id`) from sinh_vien)"))->first()->id ?? 0;
+        if (!$temp) {
+            $error = 'Quý thầy cô vui lòng file excel đúng định dạng';
+            session()->flash('error', $error);
+            return redirect()->route('form.baocaothi');
+        }
+
+        extract($temp);
+
+        $lopPost = $ten_lop . '|' . $monhoc->ma_mon_hoc;
+        $lopExcel = $lop_excel . '|' . $mon_excel;
+
+        $isCorrectClass = $lopPost === $lopExcel;
+        if (!$isCorrectClass) {
+            $error = 'Quý thầy cô vui lòng nộp báo cáo đúng lớp';
+            session()->flash('error', $error);
+            return redirect()->route('form.baocaothi');
+        }
+
+
+        unset($temp);
+        [$thongTinSinhVien, $diemThi] = $this->handleData($data);
 
         // Lấy ra toàn bộ mã sinh viên có trong file excel
         $maSinhVien = array_keys($thongTinSinhVien);
@@ -142,6 +161,7 @@ class FormBaoCaoThiController extends Controller
         $model->fill($request->all());
         $model->dot_thi_id = $dotthi->id;
         $model->email_gv = Auth::user()->email;
+        $model->mon_hoc_id = $monhoc->id;
         $model->ten_lop = $ten_lop;
         $model->file_10b = $filePath;
         $model->ngay_thi = $ngaythi;
@@ -162,7 +182,7 @@ class FormBaoCaoThiController extends Controller
         return [$thong_tin_sinh_vien, $diem_thi];
     }
 
-    public function handleExcelFile($file, $mainSheet, $colsGet, $options): array
+    public function handleExcelFile($file, $mainSheet, $colsGet, $options): bool|array
     {
         $offset = $options['offset'] ?? 0;
         $colCheckEmpty = $options['colCheckEmpty'] ?? null;
@@ -172,8 +192,20 @@ class FormBaoCaoThiController extends Controller
         $reader->setReadDataOnly(true);
         $spreadsheets = $reader->load($file);
 
-        $sheet = $spreadsheets->getSheetByName($mainSheet)->getRowIterator();
-        foreach ($sheet as $row) {
+        $sheet = $spreadsheets->getSheetByName($mainSheet);
+        if ($sheet === null) {
+            return false;
+        }
+        $monExcel = $sheet->getCell('D3')->getOldCalculatedValue() ?? false;
+        $lopExcel = $sheet->getCell('D4')->getOldCalculatedValue() ?? false;
+        $giangVienExcel = $spreadsheets->getSheetByName('Danh sach AP')->getCell('K2')->getValue() ?? false;
+        if (empty($monExcel) || empty($lopExcel) || empty($giangVienExcel)) {
+            return false;
+        }
+        $result['mon_excel'] = $monExcel;
+        $result['lop_excel'] = $lopExcel;
+        $result['giang_vien_excel'] = $giangVienExcel;
+        foreach ($sheet->getRowIterator() as $row) {
             if ($row->getRowIndex() <= $offset): continue; endif;
             $cellIterator = $row->getCellIterator();
             $cellIterator->setIterateOnlyExistingCells(FALSE); // This loops through all cells,
@@ -187,9 +219,10 @@ class FormBaoCaoThiController extends Controller
                 $cells[$colsGet[$colKey]] = $value;
             }
             if (!empty($cells)) {
-                $result[] = $cells;
+                $rows[] = $cells;
             }
         }
+        $result['data'] = $rows;
         return $result;
     }
 
