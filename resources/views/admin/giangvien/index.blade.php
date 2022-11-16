@@ -19,7 +19,7 @@
                 var id_bomon = $(`#bomon_${id_user}`).val();
                 var id_acc = $(this).attr("id_ac")
                 Swal.fire({
-                    title: 'Bạn chắc chắn set bộ môn không ?',
+                    title: 'Bạn có chắc chắn sét giảng viên này làm chủ nghiệm bộ môn không?',
                     text: "Hãy kiểm tra lại thông tin !",
                     icon: 'warning',
                     showCancelButton: true,
