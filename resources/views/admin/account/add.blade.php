@@ -4,10 +4,16 @@
 @section('content')
     <div class="container-xxl">
         <div class="card pt-5 pb-5">
+            @if (Session::has('msg'))
+                <div class="alert alert-success mx-6" role="alert">
+                    {{ session('msg') }}
+                </div>
+            @endif
             @if (isset($update_chucvu))
                 <div id="emailHelp" class="form-text alert alert-success mx-5">{{$update_chucvu}}</div>
             @endif
             <form action="" method="post">
+
                 @csrf
                 <div class="col-md-6 offset-md-3">
                     <div class="form-group mb-3">
@@ -33,13 +39,8 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Chức vụ<span class="text-danger">*</span></label>
-                        <select class="form-select" name="permission" >
-                            <option value="0" {{isset($permission->id) ? "" : "selected" }}>---Quyền---</option>
-                            <option value="{{$permission->id}}" {{isset($permission->id) ? "selected" : "" }}>{{$permission->name}}</option>
-                        </select>
-                        @error('permission')
-                        <div id="emailHelp" class="form-text alert alert-danger">{{$message}}</div>
-                        @enderror
+                        <input type="text" placeholder="{{$permission->name}}" disabled class="form-control">
+                        <input type="hidden" name="permission" value="{{$permission->id}}" class="form-control">
                     </div>
                     <div class="form-group mb-3">
                        @if(!isset($role_bomon))
@@ -52,9 +53,11 @@
                             </select>
                        @else
                             <label for="">Bộ môn<span class="text-danger">*</span></label>
-                            <select name="bo_mon" class="form-select" id="" >
-                                <option value="{{$role_bomon}}">{{$name_bomon}}</option>
-                            </select>
+                            <input type="text" placeholder="{{$name_bomon}}" disabled class="form-control">
+                            <input type="hidden" name="bo_mon" value="{{$role_bomon}}" class="form-control">
+{{--                            <select name="bo_mon" class="form-select" id="" >--}}
+{{--                                <option value="{{$role_bomon}}">{{$name_bomon}}</option>--}}
+{{--                            </select>--}}
                         @endif
                         @error('bo_mon')
                         <div id="emailHelp" class="form-text alert alert-danger">{{$message}}</div>

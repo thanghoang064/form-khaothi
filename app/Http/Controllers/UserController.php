@@ -7,12 +7,12 @@ use App\Models\User;
 use App\Models\BoMon;
 use App\Models\Roles;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-
 
 
 //        $status = null;
@@ -53,13 +53,46 @@ class UserController extends Controller
     public function status(Request $request){
         if(!empty($request->all())){
             if($request->idAcc == 2){
-                User::where("id",$request->idUser)
-                    ->update(
-                        [
-                            'role_id' => 3,
-                            'role_bomon' => $request->idBoMon
-                        ]
-                    );
+                if(!isset($request->remove_set)){
+
+                    $datanew = User::query()->where("role_id", '=', 3)->where("role_bomon",$request->idBoMon)->get();;
+                    if($datanew->isNotEmpty() == true){
+                        $dataRes['status'] = 0;
+                        $dataRes['data'] = $datanew;
+                        return response()->json($dataRes, 200);
+                    }else  {
+                        User::where("id",$request->idUser)
+                            ->update(
+                                [
+                                    'role_id' => 3,
+                                    'role_bomon' => $request->idBoMon
+                                ]
+                            );
+                        $dataRes['data'] = $datanew;
+                        $dataRes['status'] = 1;
+                        return response()->json($dataRes, 200);
+                    }
+
+
+
+
+
+                }else {
+                    $data = User::where("id",$request->item_id)
+                        ->update(
+                            [
+                                'role_id' => 1,
+                                'role_bomon' => $request->remove_set
+                            ]
+                        );
+
+                    if ($data)
+                    {
+                        $dataRes['status'] = 1;
+                        return response()->json($dataRes, 200);
+                    }
+                }
+
             }else if($request->idAcc == 3){
                 $data = User::where("id",$request->item_id)
                     ->update(
