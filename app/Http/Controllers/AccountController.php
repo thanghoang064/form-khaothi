@@ -55,16 +55,17 @@ class AccountController extends Controller
        }
         $request->validate(
             [
-                'name_account' => 'required|min:12',
+                'name_account' => 'required|min:2',
                 'email_account' =>  ['required',new CheckTailEmail(),'unique:users,email'],
                 'permission' => 'required|not_in:0',
                 'bo_mon' => $condition
             ],
             [
-                'name_account.required' =>'Không để trống name',
+                'name_account.min' => 'Tài khoản tên phải có ít nhất 2 kí tự',
+                'name_account.required' =>'Không để trống Tên',
                 'email_account.required' => "Không để trống email",
-                'password_account.required' => 'Không để trống password',
-                'password_account.min' => "Password Tối thiểu 8 kí tự",
+                'password_account.required' => 'Không để trống Mật khẩu',
+                'password_account.min' => "Mật khẩu Tối thiểu 8 kí tự",
                 'unique' => 'Dữ liệu đã tồn tại xin nhập lại',
                 'bo_mon.unique' => 'Đã tồn tại chủ nhiệm bộ môn của ngành học này ' ,
                 'permission.not_in' => 'Hãy chọn quyền!'

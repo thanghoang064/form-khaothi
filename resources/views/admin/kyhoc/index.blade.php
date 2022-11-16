@@ -32,7 +32,7 @@
             <table class="table table-hover table-responsive text-center">
                 <thead>
                 <th>Id</th>
-                <th>Tên kỳ thi</th>
+                <th>Tên kỳ học</th>
                 <th>Ngày tạo</th>
                 <th>Ngày cập nhật</th>
                 <th>

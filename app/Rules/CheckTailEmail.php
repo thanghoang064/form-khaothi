@@ -16,9 +16,21 @@ class CheckTailEmail implements InvokableRule
      */
     public function __invoke($attribute, $value, $fail)
     {
-        $Email = explode('@',$value);
-        if($Email[1] != "fpt.edu.vn"){
+//        if(str_contains($value, '@') == false){
+//            $Email = explode('@',$value);
+//            if($Email[1] != "fpt.edu.vn"){
+//                $fail('Email không đúng định dạng fpt ');
+//            }
+//            $fail('Email không đúng định dạng fpt ');
+//        }
+
+        if(str_contains($value, '@') == true){
+            $Email = explode('@',$value);
+            if($Email[1] != "fpt.edu.vn"){
+                $fail('Email không đúng định dạng fpt ');
+            }
             $fail('Email không đúng định dạng fpt ');
         }
+
     }
 }

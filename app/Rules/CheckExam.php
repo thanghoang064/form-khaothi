@@ -20,8 +20,8 @@ class CheckExam implements InvokableRule
         // value = name kì thi
         $model = new KyHoc();
         $count = $model->where("name",strtolower($value))->count();
-        if($count == 2){
-            $fail('Đã tồn tại 2 kỳ học ' . '['.$value.']');
+        if($count == 1){
+            $fail('Đã tồn tại kỳ học ' . '['.$value.']');
         }
     }
 }
