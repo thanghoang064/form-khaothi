@@ -22,6 +22,7 @@ if(!function_exists('getGooogleClient')){
                 printf("Open the following link in your browser:\n%s\n", $authUrl);
                 print 'Enter verification code: ';
                 $authCode = trim(fgets(STDIN));
+                //$authCode = "4/0AfgeXvsh7OD-2fUb_D1VVz6Lbt8oqMydmm-2KMWZYkyIZ4mLf3z9DFh3FWSP4rWA3_txYw";
 
                 // Exchange authorization code for an access token.
                 $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
