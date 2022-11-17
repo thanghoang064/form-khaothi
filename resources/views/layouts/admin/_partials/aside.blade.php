@@ -40,24 +40,24 @@
             <div
                 class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
                 id="#kt_aside_menu" data-kt-menu="true" data-kt-menu-expand="false">
-                <div class="menu-item here show menu-accordion">
-                    <a href="{{route('dashboard')}}" class="menu-link">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none">
-                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black"/>
-                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black"/>
-                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black"/>
-                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black"/>
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Dashboards</span>
-                    </a>
-                </div>
+{{--                <div class="menu-item here show menu-accordion">--}}
+{{--                    <a href="{{route('dashboard')}}" class="menu-link">--}}
+{{--                        <span class="menu-icon">--}}
+{{--                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->--}}
+{{--                            <span class="svg-icon svg-icon-2">--}}
+{{--                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"--}}
+{{--                                     fill="none">--}}
+{{--                                    <rect x="2" y="2" width="9" height="9" rx="2" fill="black"/>--}}
+{{--                                    <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black"/>--}}
+{{--                                    <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black"/>--}}
+{{--                                    <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black"/>--}}
+{{--                                </svg>--}}
+{{--                            </span>--}}
+{{--                            <!--end::Svg Icon-->--}}
+{{--                        </span>--}}
+{{--                        <span class="menu-title">Dashboards</span>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
                 <div class="menu-item here show menu-accordion">
                     <a href="{{route('dotthi.index')}}" class="menu-link">
                         <span class="menu-icon">
@@ -86,27 +86,27 @@
                         <span class="menu-title">Đợt thi</span>
                     </a>
                 </div>
-                <div class="menu-item here show menu-accordion">
-                    <a href="{{route('dashboard')}}" class="menu-link">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none">
-                                    <path opacity="0.3"
-                                          d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"
-                                          fill="black"/>
-                                    <path d="M20 8L14 2V6C14 7.10457 14.8954 8 16 8H20Z" fill="black"/>
-                                    <path
-                                        d="M10.3629 14.0084L8.92108 12.6429C8.57518 12.3153 8.03352 12.3153 7.68761 12.6429C7.31405 12.9967 7.31405 13.5915 7.68761 13.9453L10.2254 16.3488C10.6111 16.714 11.215 16.714 11.6007 16.3488L16.3124 11.8865C16.6859 11.5327 16.6859 10.9379 16.3124 10.5841C15.9665 10.2565 15.4248 10.2565 15.0789 10.5841L11.4631 14.0084C11.1546 14.3006 10.6715 14.3006 10.3629 14.0084Z"
-                                        fill="black"/>
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                        <span class="menu-title">Báo cáo thi</span>
-                    </a>
-                </div>
+{{--                <div class="menu-item here show menu-accordion">--}}
+{{--                    <a href="{{route('dashboard')}}" class="menu-link">--}}
+{{--                        <span class="menu-icon">--}}
+{{--                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->--}}
+{{--                            <span class="svg-icon svg-icon-2">--}}
+{{--                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"--}}
+{{--                                     fill="none">--}}
+{{--                                    <path opacity="0.3"--}}
+{{--                                          d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"--}}
+{{--                                          fill="black"/>--}}
+{{--                                    <path d="M20 8L14 2V6C14 7.10457 14.8954 8 16 8H20Z" fill="black"/>--}}
+{{--                                    <path--}}
+{{--                                        d="M10.3629 14.0084L8.92108 12.6429C8.57518 12.3153 8.03352 12.3153 7.68761 12.6429C7.31405 12.9967 7.31405 13.5915 7.68761 13.9453L10.2254 16.3488C10.6111 16.714 11.215 16.714 11.6007 16.3488L16.3124 11.8865C16.6859 11.5327 16.6859 10.9379 16.3124 10.5841C15.9665 10.2565 15.4248 10.2565 15.0789 10.5841L11.4631 14.0084C11.1546 14.3006 10.6715 14.3006 10.3629 14.0084Z"--}}
+{{--                                        fill="black"/>--}}
+{{--                                </svg>--}}
+{{--                            </span>--}}
+{{--                            <!--end::Svg Icon-->--}}
+{{--                        </span>--}}
+{{--                        <span class="menu-title">Báo cáo thi</span>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
 
                 @if(session('role_id') == 2)
                     <div class="menu-item here show menu-accordion">
@@ -206,27 +206,27 @@
                             </a>
                         </div>
                     @endif
-                    <div class="menu-item here show menu-accordion">
-                        <a href="{{route('account.add')}}" class="menu-link">
-                        <span class="menu-icon">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-                            <span class="svg-icon svg-icon-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none">
-                                    <path opacity="0.3"
-                                          d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"
-                                          fill="black"/>
-                                    <path d="M20 8L14 2V6C14 7.10457 14.8954 8 16 8H20Z" fill="black"/>
-                                    <path
-                                        d="M10.3629 14.0084L8.92108 12.6429C8.57518 12.3153 8.03352 12.3153 7.68761 12.6429C7.31405 12.9967 7.31405 13.5915 7.68761 13.9453L10.2254 16.3488C10.6111 16.714 11.215 16.714 11.6007 16.3488L16.3124 11.8865C16.6859 11.5327 16.6859 10.9379 16.3124 10.5841C15.9665 10.2565 15.4248 10.2565 15.0789 10.5841L11.4631 14.0084C11.1546 14.3006 10.6715 14.3006 10.3629 14.0084Z"
-                                        fill="black"/>
-                                </svg>
-                            </span>
-                            <!--end::Svg Icon-->
-                        </span>
-                            <span class="menu-title">Tạo tài khoản</span>
-                        </a>
-                    </div>
+{{--                    <div class="menu-item here show menu-accordion">--}}
+{{--                        <a href="{{route('account.add')}}" class="menu-link">--}}
+{{--                        <span class="menu-icon">--}}
+{{--                            <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->--}}
+{{--                            <span class="svg-icon svg-icon-2">--}}
+{{--                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"--}}
+{{--                                     fill="none">--}}
+{{--                                    <path opacity="0.3"--}}
+{{--                                          d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"--}}
+{{--                                          fill="black"/>--}}
+{{--                                    <path d="M20 8L14 2V6C14 7.10457 14.8954 8 16 8H20Z" fill="black"/>--}}
+{{--                                    <path--}}
+{{--                                        d="M10.3629 14.0084L8.92108 12.6429C8.57518 12.3153 8.03352 12.3153 7.68761 12.6429C7.31405 12.9967 7.31405 13.5915 7.68761 13.9453L10.2254 16.3488C10.6111 16.714 11.215 16.714 11.6007 16.3488L16.3124 11.8865C16.6859 11.5327 16.6859 10.9379 16.3124 10.5841C15.9665 10.2565 15.4248 10.2565 15.0789 10.5841L11.4631 14.0084C11.1546 14.3006 10.6715 14.3006 10.3629 14.0084Z"--}}
+{{--                                        fill="black"/>--}}
+{{--                                </svg>--}}
+{{--                            </span>--}}
+{{--                            <!--end::Svg Icon-->--}}
+{{--                        </span>--}}
+{{--                            <span class="menu-title">Tạo tài khoản</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                 @endif
             </div>
             <!--end::Menu-->

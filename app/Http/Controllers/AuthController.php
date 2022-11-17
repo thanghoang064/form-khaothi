@@ -40,7 +40,7 @@ class AuthController extends Controller
         if(Auth::user()->role_id == 1){
             return redirect(route('form.baocaothi'));
         }else {
-            return redirect(route('dashboard'));
+            return redirect(route('dotthi.index'));
         }
     }
 

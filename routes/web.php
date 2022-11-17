@@ -48,10 +48,10 @@ Route::view('layout', 'layouts.admin.master2');
 Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::group(['prefix' => 'account'], function (){
-        Route::get('', [\App\Http\Controllers\AccountController::class, 'index'])->name('account.add');
-        Route::post('', [\App\Http\Controllers\AccountController::class, 'add']);
-    });
+//    Route::group(['prefix' => 'account'], function (){
+//        Route::get('', [\App\Http\Controllers\AccountController::class, 'index'])->name('account.add');
+//        Route::post('', [\App\Http\Controllers\AccountController::class, 'add']);
+//    });
     Route::group(['middleware' => 'CheckService','prefix' => 'ky-hoc'], function (){
         Route::get('', [\App\Http\Controllers\HocKyController::class, 'index_ky_hoc'])->name('ky-hoc.index');
         Route::get('add', [\App\Http\Controllers\HocKyController::class, 'add_ky_hoc'])->name('ky_hoc.add');
