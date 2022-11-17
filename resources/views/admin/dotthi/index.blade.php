@@ -25,7 +25,7 @@
                 @foreach($dotthi as $dt)
                     <tr>
                         <td>{{$dt->name}}</td>
-                        <td>{{$dt->sheet_id}}</td>
+                        <td class="text-truncate" style="max-width: 150px;">{{$dt->sheet_id}}</td>
                         <td>{{$dt->status == 1 ? "Active" : "Inactive"}}</td>
                         <td>{{$dt->trang_thai_dong_bo == 1 ? "Đã đồng bộ" : "Đang đồng bộ"}}</td>
                         <td>
@@ -58,9 +58,9 @@
                             <a href="{{route('dotthi.edit')}}?id={{ $dt->id }}" class="btn btn-sm btn-info" title="Chỉnh sửa">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a href="{{route('dotthi.delete')}}?id={{ $dt->id }}" class="btn btn-sm btn-danger" title="Xóa">
-                                <i class="fa fa-trash"></i>
-                            </a>
+{{--                            <a href="{{route('dotthi.delete')}}?id={{ $dt->id }}" class="btn btn-sm btn-danger" title="Xóa">--}}
+{{--                                <i class="fa fa-trash"></i>--}}
+{{--                            </a>--}}
                         </td>
                     </tr>
                 @endforeach

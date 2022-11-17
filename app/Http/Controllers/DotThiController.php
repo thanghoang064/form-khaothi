@@ -71,10 +71,10 @@ class DotThiController extends Controller
 
         $request->validate([
             'name_exam' => 'required',
-            'sheet_id_exam' => 'required|integer',
+            'sheet_id_exam' => 'required',
         ], [
             'required' => 'Vui lòng không để trống',
-            'integer' => 'Vui lòng nhập số'
+//            'integer' => 'Vui lòng nhập số'
         ]);
          DotThi::where('id',$id)->update(
             [

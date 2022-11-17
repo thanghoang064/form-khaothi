@@ -19,7 +19,7 @@
                 var id_bomon = $(`#bomon_${id_user}`).val();
                 var id_acc = $(this).attr("id_ac")
                 Swal.fire({
-                    title: 'Bạn chắc chắn set bộ môn không ?',
+                    title: 'Bạn có chắc chắn sét giảng viên này làm chủ nghiệm bộ môn không?',
                     text: "Hãy kiểm tra lại thông tin !",
                     icon: 'warning',
                     showCancelButton: true,
@@ -39,8 +39,24 @@
                                 idBoMon : id_bomon,
                                 idAcc : id_acc
                             },
-                            success:function() {
-                                location.reload();
+                            success:function(response) {
+                                console.log(response);
+                                if (response.status === 1)    {
+                                    // console.log(response.data);
+                                    // console.log(response.status);
+                                    location.reload();
+                                }else if (response.status === 0) {
+                                    // console.log(response.status);
+                                    // console.log(response.data);
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Đã tồn tại chủ nhiệm bộ môn này !',
+                                        text: 'Vui lòng kiểm tra lại thông tin'
+                                    }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload();
+                                            }})
+                                }
                             },
                             error:function(){
                                 console.log(response.status);
@@ -109,6 +125,51 @@
                     }
                 })
             })
+            $(".btn-remove-set").click(function () {
+                var dataId = $(this).attr("data-id");
+                var dataStatus = $(this).attr("status-id");
+                var id_acc = $(this).attr("id_ac")
+                var id_bomon = $(this).attr("id_bomon")
+                console.log(dataId,dataStatus,id_acc,id_bomon);
+                Swal.fire({
+                    title: 'Bạn chắc chắn muốn tước quyền chủ nhiệm với giáo viên này ?',
+                    text: "Hãy kiểm tra lại thông tin !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Tiếp tục!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url:'{{route('giangvien.list')}}',
+                            method:"POST", //First change type to method here
+                            data:{
+                                item_id: dataId,
+                                remove_set : dataStatus,
+                                idAcc : id_acc,
+                                id_bomon : id_bomon
+                            },
+                            success:function(response) {
+                                console.log(response.status);
+                                if (response.status === 1)    {
+                                        // console.log("mau xanh")
+                                        $('#chucvu' + dataId).html('Giảng viên');
+                                        $('#btn-status' + dataId).hide(1000);
+                                }
+                            },
+                            error:function(){
+                                console.log(response.status);
+                                console.log("Error")
+                            }
+
+                        });
+                    }
+                })
+            })
         });
     </script>
 @endsection
@@ -161,15 +222,23 @@
                     <tr>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
-                        <td>{{$roles->find($user->role_id)->name}}</td>
+                        <td id="chucvu{{ $user->id }}">{{$roles->find($user->role_id)->name}}</td>
                         <td>
                             @if($user->role_id == 3 || $user->role_id == 1)
-
-                                      <select  dataaa-id="{{$user->id}}" id_ac="{{$user_account->role_id}}" class="sl-bomon form-select" name="bomon_set" id="bomon_{{ $user->id }}">
-                                    @foreach($options as $value)
-                                        <option class="btn-status" value="{{$value->id}}"   {{$user->role_bomon == $value->id ? 'selected' : ''}} >{{$value->name}}</option>
-                                    @endforeach
-                                    </select>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <select  dataaa-id="{{$user->id}}" id_ac="{{$user_account->role_id}}" class="sl-bomon form-select" name="bomon_set" id="bomon_{{ $user->id }}">
+                                                @foreach($options as $value)
+                                                    <option class="btn-status" value="{{$value->id}}"   {{$user->role_bomon == $value->id ? 'selected' : ''}} >{{$value->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            @if($user->role_id == 3 )
+                                                <button data-id="{{ $user->id }}" name="status" id_bomon="{{$user_account->role_bomon}}"  id_ac="{{$user_account->role_id }}" status-id="1" type="button" id="btn-status{{ $user->id }}" class="btn btn-danger btn-remove-set" title="Bỏ set"  >Bỏ set</button>
+                                            @endif
+                                        </div>
+                                    </div>
 
                             @elseif($user->role_id == 2)
                                 {{$roles->find($user->role_id)->name}}
