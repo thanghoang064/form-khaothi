@@ -58,19 +58,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($giangVienDaNhap['danh_sach'] as $user)
+                        @if (!empty($giangVienDaNhap['danh_sach']))
+                            @foreach($giangVienDaNhap['danh_sach'] as $user)
+                                <tr>
+                                    <td>{{ $user['name'] }}</td>
+                                    <td>{{ $user['email'] }}</td>
+                                    <td>
+                                        <a href="{{route('fuge.danhsachupload')}}?id={{ $user['id'] }}"
+                                           class="btn btn-sm btn-info"
+                                           title="Chỉnh sửa">
+                                            DS
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
-                                <td>{{ $user['name'] }}</td>
-                                <td>{{ $user['email'] }}</td>
-                                <td>
-                                    <a href="{{route('fuge.danhsachupload')}}?id={{ $user['id'] }}"
-                                       class="btn btn-sm btn-info"
-                                       title="Chỉnh sửa">
-                                        DS
-                                    </a>
-                                </td>
+                                <td colspan="3" class="text-center">Không có giảng viên</td>
                             </tr>
-                        @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -89,12 +95,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($giangVienChuaNhap['danh_sach'] as $user)
+                        @if (!empty($giangVienChuaNhap['danh_sach']))
+                            @foreach($giangVienChuaNhap['danh_sach'] as $user)
+                                <tr>
+                                    <td>{{ $user['name'] }}</td>
+                                    <td>{{ $user['email'] }}</td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
-                                <td>{{ $user['name'] }}</td>
-                                <td>{{ $user['email'] }}</td>
+                                <td colspan="2" class="text-center">Không có giảng viên</td>
                             </tr>
-                        @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>
