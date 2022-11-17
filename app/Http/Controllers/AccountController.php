@@ -34,7 +34,9 @@ class AccountController extends Controller
         }
         $a =[];
         foreach(User::all() as $value){
-            $a[] = $value->role_bomon;
+            if($value->role_id == 3){
+                $a[] = $value->role_bomon;
+            }
         }
         $Subject_Leftovers = BoMon::whereNotIn('id',$a)->get();
 
@@ -46,30 +48,31 @@ class AccountController extends Controller
     }
 
     public function add(Request $request){
-//        dd($request->all());
+//        dd($request->bo_mon);
         $condition = null;
        if(Auth::user()->role_id == 2){
-            $condition = 'required|unique:users,role_bomon';
+            $condition = 'required|unique:users,role_bomon|not_in:0';
        }else {
-           $condition = 'required|';
+           $condition = 'required|not_in:0';
        }
+
         $request->validate(
             [
-                'name_account' => 'required|min:12',
+                'name_account' => 'required|min:2',
                 'email_account' =>  ['required',new CheckTailEmail(),'unique:users,email'],
                 'permission' => 'required|not_in:0',
                 'bo_mon' => $condition
             ],
             [
-                'name_account.required' =>'Không để trống name',
+                'name_account.min' => 'Tên tối thiểu 2 kí tự ',
+                'name_account.required' =>'Không để trống Tên',
                 'email_account.required' => "Không để trống email",
-                'password_account.required' => 'Không để trống password',
-                'password_account.min' => "Password Tối thiểu 8 kí tự",
                 'unique' => 'Dữ liệu đã tồn tại xin nhập lại',
                 'bo_mon.unique' => 'Đã tồn tại chủ nhiệm bộ môn của ngành học này ' ,
-                'permission.not_in' => 'Hãy chọn quyền!'
+                'bo_mon.not_in' => 'Hãy chọn bộ môn !'
             ]
         );
+
 
         $date = date('Y-m-d h:i:s');
         $password = $this->ramdom_password();

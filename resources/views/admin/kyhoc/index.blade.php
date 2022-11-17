@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 @section('module-name', "Kỳ học")
-@section('page-name', 'Danh sách kì học')
+@section('page-name', 'Danh sách kỳ học')
 @section('page-style')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -32,7 +32,7 @@
             <table class="table table-hover table-responsive text-center">
                 <thead>
                 <th>Id</th>
-                <th>Tên kỳ thi</th>
+                <th>Tên kỳ học</th>
                 <th>Ngày tạo</th>
                 <th>Ngày cập nhật</th>
                 <th>
