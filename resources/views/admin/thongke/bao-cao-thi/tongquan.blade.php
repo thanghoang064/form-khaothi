@@ -45,12 +45,65 @@
             <!-- End Card -->
             <div class="mt-5 pt-5">
                 <h3>Biểu đồ thống kê lượt báo cáo thi - {{ $dotThiName }}</h3>
-                <div id="chartJSContainer">
-                    {!! $chart->container() !!}
-                    {!! $chart->script() !!}
+                <div id="chartJSContainer" style="">
+                    <canvas id="myBarChart"></canvas>
                 </div>
             </div>
         </div>
 
     </div>
+    <script>
+        const labels = @json($labels);
+        const tongSoCa = @json($tongSoCa);
+        const soCaDaBaoCao = @json($soCaDaBaoCao);
+        const soCaChuaBaoCao = @json($soCaChuaBaoCao);
+        $(document).ready(function () {
+            const barChart = $('#myBarChart').get(0).getContext('2d');
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Số ca đã báo cáo',
+                        data: soCaDaBaoCao,
+                        backgroundColor: 'rgb(75, 192, 192)',
+                        stack: 'Stack 0',
+                    },
+                    {
+                        label: 'Số ca chưa báo cáo',
+                        data: soCaChuaBaoCao,
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        stack: 'Stack 0',
+                    },
+                    {
+                        label: 'Tổng số ca',
+                        data: tongSoCa,
+                        backgroundColor: 'rgb(54, 162, 235)',
+                        stack: 'Stack 1',
+                    },
+                ]
+            };
+            const options = {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        ticks: {
+                            stepSize: 1,
+                        },
+                        stacked: true,
+                    },
+                    y: {
+                        ticks: {
+                            stepSize: 1,
+                        },
+                        stacked: true,
+                    }
+                }
+            }
+            new Chart(barChart, {
+                type: 'bar',
+                data: data,
+                options: options,
+            });
+        })
+    </script>
 @endsection
