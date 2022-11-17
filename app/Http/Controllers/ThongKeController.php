@@ -14,7 +14,6 @@ use App\Models\MonDotThi;
 use App\Models\CaDotThi;
 use App\Models\LopDotThi;
 use Illuminate\Support\Facades\Auth;
-use App\Charts\ThongKeBaoCaoThi;
 
 class ThongKeController extends Controller
 {
@@ -46,44 +45,18 @@ class ThongKeController extends Controller
             'so_ca_chua_bao_cao' => $tongSoCaThi - $soCaDaBaoCao
         ];
 
-//        $chart = new ThongKeBaoCaoThi();
         $labels = [];
         $tongSoCa = [];
         $soCaDaBaoCao = [];
         $soCaChuaBaoCao = [];
         foreach ($thongKeBaoCaoThiTheoBoMon as $item) {
-//            $labels[] = '<a href="#"">' . $item['name'] . '</a>';
             $labels[] = $item['name'];
             $tongSoCa[] = $item['so_ca_thi'];
             $soCaDaBaoCao[] = $item['so_ca_da_bao_cao'];
             $soCaChuaBaoCao[] = $item['so_ca_chua_bao_cao'];
         }
-//        $chart->options([
-//            'indexAxis' => 'y',
-//            'scales' => [
-//                'x' => [
-//                    'ticks' => [
-//                        'stepSize' => 5,
-//                    ],
-//                    'stacked' => true,
-//                ],
-//                'y' => [
-////                    'max' => ,
-//                    'ticks' => [
-//                        'stepSize' => 15,
-//                    ],
-//                    'stacked' => true,
-//                ]
-//            ],
-//            'responsive' => true,
-//            'maintainAspectRatio' => false,
-//        ]);
-//        $chart->labels($labels);
-//        $chart->dataset('Số ca đã báo cáo', 'bar', $soCaDaBaoCao)->color('green')->backgroundColor('green')->fill(true);
-//        $chart->dataset('Số ca chưa báo cáo', 'bar', $soCaChuaBaoCao)->color('red')->backgroundColor('red')->fill(true);
-//        $chart->dataset('Tổng số ca', 'bar', $tongSoCa)->color('rgb(54, 162, 235)')->backgroundColor('rgb(54, 162, 235)')->fill(true);
+
         return view('admin.thongke.bao-cao-thi.tongquan', [
-//            'chart' => $chart,
             'dotThiName' => $this->dotThi->name,
             'thongKeBaoCaoThiTong' => $thongKeBaoCaoThiTong,
             'boMon' => $this->boMon,
