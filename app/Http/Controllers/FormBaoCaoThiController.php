@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-use RealRashid\SweetAlert\Facades\Alert;
+//use RealRashid\SweetAlert\Facades\Alert;
 
 class FormBaoCaoThiController extends Controller
 {
@@ -60,9 +60,8 @@ class FormBaoCaoThiController extends Controller
             'G' => 'diem'
         ];
         $temp = $this->handleExcelFile($request->file('file_excel'), $mainSheet, $colsGet, ['offset' => 7, 'colCheckEmpty' => 'B']);
-
         if (!$temp) {
-            $error = 'Quý thầy cô vui lòng file excel đúng định dạng';
+            $error = 'Quý thầy cô vui lòng báo cáo bằng file excel đúng định dạng';
             session()->flash('error', $error);
             return redirect()->route('form.baocaothi');
         }
@@ -78,7 +77,6 @@ class FormBaoCaoThiController extends Controller
             session()->flash('error', $error);
             return redirect()->route('form.baocaothi');
         }
-
 
         unset($temp);
         [$thongTinSinhVien, $diemThi] = $this->handleData($data);

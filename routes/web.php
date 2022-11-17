@@ -71,8 +71,11 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     });
 
     Route::group(['prefix' => 'thong-ke'], function (){
-        Route::get('nhap-diem', [\App\Http\Controllers\ThongKeController::class, 'nhapDiem'])->name('nhap-diem');
-        Route::get('nhap-diem-theo-bo-mon/{idBoMon}', [\App\Http\Controllers\ThongKeController::class, 'nhapDiemTheoBoMon'])->name('nhap-diem-theo-bo-mon');
+//        Route::get('nhap-diem', [\App\Http\Controllers\ThongKeController::class, 'nhapDiem'])->name('nhap-diem');
+//        Route::get('nhap-diem-theo-bo-mon/{idBoMon}', [\App\Http\Controllers\ThongKeController::class, 'nhapDiemTheoBoMon'])->name('nhap-diem-theo-bo-mon');
+        Route::get('bao-cao-thi', [\App\Http\Controllers\ThongKeController::class, 'baoCaoThi'])->name('thongke.bao-cao-thi');
+        Route::get('bao-cao-thi-theo-bo-mon', [\App\Http\Controllers\ThongKeController::class, 'baoCaoThiTheoBoMon'])->name('thongke.bao-cao-thi-theo-bo-mon');
+        Route::get('pho-diem', [\App\Http\Controllers\ThongKeController::class, 'thongKeDiem'])->name('thongke.pho-diem');
     });
 
 });
