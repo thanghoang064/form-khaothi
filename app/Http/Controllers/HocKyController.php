@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KyHoc;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Rules\CheckExam;
 
 class HocKyController extends Controller
@@ -14,6 +14,8 @@ class HocKyController extends Controller
     }
 
     public function index_ky_hoc(Request $request){
+        $role_id = Auth::user()->role_id;
+        session(['role_id' => $role_id]);
         $model = new KyHoc();
         $datas = KyHoc::whereNot('status',0)->paginate(5);
         if(isset($request->name_search)){
@@ -22,7 +24,7 @@ class HocKyController extends Controller
         }
 
         $paginate = $request->all();
-        return view('admin.kyhoc.index',compact('datas','paginate'));
+        return view('admin.kyhoc.index',compact('datas','paginate'))->with('role_id');
     }
 
     public function add_ky_hoc(){

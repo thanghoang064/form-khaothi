@@ -27,8 +27,6 @@ Route::middleware(['CheckAuth','auth'])->group(function(){
         Route::get('form-bao-cao-thanh-cong', [\App\Http\Controllers\FormBaoCaoThiController::class, 'thanhCong'])->name('form.thanhcong');
         Route::get('lich-su-bao-cao-thi', [\App\Http\Controllers\FormBaoCaoThiController::class, 'lichSuBaoCao'])->name('form.lichsu');
         Route::get('tai-file-bao-cao-thi/{luotbaocao}', [\App\Http\Controllers\FormBaoCaoThiController::class, 'taiFileBaocao'])->name('form.taifilebaocao');
-
-
 });
 Route::get('redirect/google', [\App\Http\Controllers\AuthController::class, 'redirectGoogleAuth'])->name('login.google');
 Route::get('auth/callback', [\App\Http\Controllers\AuthController::class, 'authCallback']);
@@ -48,10 +46,10 @@ Route::view('layout', 'layouts.admin.master2');
 Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function (){
     Route::redirect('/', 'dashboard');
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::group(['prefix' => 'account'], function (){
-        Route::get('', [\App\Http\Controllers\AccountController::class, 'index'])->name('account.add');
-        Route::post('', [\App\Http\Controllers\AccountController::class, 'add']);
-    });
+//    Route::group(['prefix' => 'account'], function (){
+//        Route::get('', [\App\Http\Controllers\AccountController::class, 'index'])->name('account.add');
+//        Route::post('', [\App\Http\Controllers\AccountController::class, 'add']);
+//    });
     Route::group(['middleware' => 'CheckService','prefix' => 'ky-hoc'], function (){
         Route::get('', [\App\Http\Controllers\HocKyController::class, 'index_ky_hoc'])->name('ky-hoc.index');
         Route::get('add', [\App\Http\Controllers\HocKyController::class, 'add_ky_hoc'])->name('ky_hoc.add');
