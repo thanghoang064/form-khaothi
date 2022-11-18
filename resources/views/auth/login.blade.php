@@ -12,9 +12,9 @@
                         <img src="{{asset('images')}}/logofpt.png" class="w-75" alt="">
                     </div>
                     <div class="d-grid gap-2 col-12 mx-auto">
-                        <a class="btn" href="{{route('login.google')}}" style="background: #fd1361; color: #fff; text-transform: uppercase">
+                        <a class="btn" href="{{route('login.google')}}" style="background: #fd1361; color: #fff;">
                             <i class="fab fa-google-plus-square me-2" aria-hidden="true"></i>
-                             đăng nhập bằng google
+                             Google
                         </a>
 {{--                        <a class="btn" href="{{route('login.fake')}}" style="background: #FFC210; color: #fff; text-transform: uppercase">--}}
 {{--                            <i class="fab fa-google-plus-square" aria-hidden="true"></i>--}}

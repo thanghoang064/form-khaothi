@@ -24,11 +24,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
 
-                    @guest
-                        <li class="nav-item text-uppercase">
-                            <a class="nav-link" href="{{route('login.google')}}">Đăng nhập</a>
-                        </li>
-                    @endguest
+{{--                    @guest--}}
+{{--                        <li class="nav-item text-uppercase">--}}
+{{--                            <a class="nav-link" href="{{route('login.google')}}">Đăng nhập</a>--}}
+{{--                        </li>--}}
+{{--                    @endguest--}}
                     @auth
                             <li class="nav-item">
                                 <a class="nav-link text-uppercase" href="{{route('form.uploadfuge')}}">Upload file fuge</a>
