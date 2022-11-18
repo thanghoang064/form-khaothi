@@ -14,7 +14,6 @@ use App\Models\MonDotThi;
 use App\Models\CaDotThi;
 use App\Models\LopDotThi;
 use Illuminate\Support\Facades\Auth;
-use App\Charts\ThongKeBaoCaoThi;
 
 class ThongKeController extends Controller
 {
@@ -46,40 +45,25 @@ class ThongKeController extends Controller
             'so_ca_chua_bao_cao' => $tongSoCaThi - $soCaDaBaoCao
         ];
 
-        $chart = new ThongKeBaoCaoThi();
         $labels = [];
         $tongSoCa = [];
         $soCaDaBaoCao = [];
+        $soCaChuaBaoCao = [];
         foreach ($thongKeBaoCaoThiTheoBoMon as $item) {
-//            $labels[] = '<a href="#"">' . $item['name'] . '</a>';
             $labels[] = $item['name'];
             $tongSoCa[] = $item['so_ca_thi'];
             $soCaDaBaoCao[] = $item['so_ca_da_bao_cao'];
+            $soCaChuaBaoCao[] = $item['so_ca_chua_bao_cao'];
         }
-        $chart->options([
-            'indexAxis' => 'y',
-            'scales' => [
-                'x' => [
-//                'ticks' => [
-//                    'autoSkip' => false,
-//                    'maxRotation' => 90,
-//                    'minRotation' => 90,
-//                ] ,
-                    'stacked' => true,
-                ],
-                'y' => [
-                    'stacked' => true,
-                ],
-            ],
-        ]);
-        $chart->labels($labels);
-        $chart->dataset('Số ca đã báo cáo', 'bar', $soCaDaBaoCao)->color('green')->backgroundColor('green')->fill(true);
-        $chart->dataset('Tổng số ca', 'bar', $tongSoCa)->color('rgb(54, 162, 235)')->backgroundColor('rgb(54, 162, 235)')->fill(true);
+
         return view('admin.thongke.bao-cao-thi.tongquan', [
-            'chart' => $chart,
             'dotThiName' => $this->dotThi->name,
             'thongKeBaoCaoThiTong' => $thongKeBaoCaoThiTong,
-            'boMon' => $this->boMon
+            'boMon' => $this->boMon,
+            'labels' => $labels,
+            'tongSoCa' => $tongSoCa,
+            'soCaDaBaoCao' => $soCaDaBaoCao,
+            'soCaChuaBaoCao' => $soCaChuaBaoCao,
         ]);
 
     }
@@ -294,15 +278,15 @@ class ThongKeController extends Controller
 
         $thongKeDiemTheoMon = [];
         foreach ($lopDotThiArr as $lop) {
-//            dd($lop);
             $mon_hoc_id = $lop['mon_hoc_id'];
-
+//            dd($thongKeDiemTheoMon[$mon_hoc_id]);
             if (isset($thongKeDiemTheoMon[$mon_hoc_id])) {
                 $this->tinhTongDiem($tieuChiThongKe, $thongKeDiemTheoMon[$mon_hoc_id], $lop['thong_ke_diem']);
             } else {
                 $this->tinhTongDiem($tieuChiThongKe, $thongKeDiemTheoMon[$mon_hoc_id], $lop['thong_ke_diem'], true);
             }
         }
+//        dd($thongKeDiemTheoMon);
 
         return view('admin.thongke.pho-diem.pho-diem', [
             'boMon' => $this->boMon,
@@ -320,8 +304,9 @@ class ThongKeController extends Controller
             if (!$setDefault) {
                 $tong[$key] += $item[$key];
             } else {
-                $tong[$key] = 0;
+                $tong[$key] = $item[$key];
             }
+//            dd($tong);
         }
     }
 
