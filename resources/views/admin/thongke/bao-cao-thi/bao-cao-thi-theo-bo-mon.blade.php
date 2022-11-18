@@ -38,9 +38,9 @@
                 <div class="card-info px-3 py-3 bg-danger rounded" style="width: 30%;">
                     <p class="mb-2 fw-bolder fs-3">Chưa báo cáo</p>
                     <p class="m-0 fs-4">
-                            <span class="text-white fs-3 so_ca_chua_bao_cao">
+                        <span class="text-white fs-3 so_ca_chua_bao_cao">
 
-                            </span>
+                        </span>
                         ca
                     </p>
                 </div>
@@ -56,7 +56,7 @@
             <!-- Đã upload -->
             <div class="col p-2 rounded">
                 <div class="p-2 shadow rounded">
-                    <table class="table table-hover table-responsive table-bordered">
+                    <table id="table1" class="table table-hover table-responsive table-bordered">
 
                         <thead>
                         <tr>
@@ -76,21 +76,31 @@
         </div>
     </div>
     <script>
-        const $ = document.querySelector.bind(document);
-        const $$ = document.querySelectorAll.bind(document);
         const thongKe = Object.values(@json($thongKeBaoCaoThiTheoBoMon));
-        const boMonElement = $('select[name="bo_mon_id"]');
-        const soCaBaoCaoElement = $('span.so_ca_thi');
-        const soCaDaBaoCaoElement = $('span.so_ca_da_bao_cao');
-        const soCaChuaBaoCaoElement = $('span.so_ca_chua_bao_cao');
-        const tableBody = $('table tbody');
-        listThongKe(boMonElement.value);
+        let dataTable;
+
+        $(document).ready(function () {
+            const boMonElement = $('select[name="bo_mon_id"]');
+            listThongKe(boMonElement.val());
+        });
+
 
         function listThongKe(boMonId) {
-            boMon = thongKe.find((item) => item.id == boMonId);
-            soCaBaoCaoElement.innerHTML = boMon.so_ca_thi;
-            soCaDaBaoCaoElement.innerHTML = boMon.so_ca_da_bao_cao;
-            soCaChuaBaoCaoElement.innerHTML = boMon.so_ca_chua_bao_cao;
+
+            if (dataTable) {
+                dataTable.destroy();
+            }
+
+            const soCaBaoCaoElement = $('span.so_ca_thi');
+            const soCaDaBaoCaoElement = $('span.so_ca_da_bao_cao');
+            const soCaChuaBaoCaoElement = $('span.so_ca_chua_bao_cao');
+            const tableBody = $('table tbody');
+            const table = $('#table1');
+
+            let boMon = thongKe.find((item) => item.id == boMonId);
+            soCaBaoCaoElement.html(boMon.so_ca_thi);
+            soCaDaBaoCaoElement.html(boMon.so_ca_da_bao_cao);
+            soCaChuaBaoCaoElement.html(boMon.so_ca_chua_bao_cao);
             let htmlArr = boMon.danh_sach.sort((a, b) => {
                 return a.name.localeCompare(b.name);
             })
@@ -107,7 +117,8 @@
             })
             let noDataHtml = `<tr><td colspan="5">Không có giảng viên</td></tr>`;
             let html = (htmlArr.length === 0) ? noDataHtml : htmlArr.join('');
-            tableBody.innerHTML = html;
+            tableBody.html(html);
+            dataTable = new DataTable('#table1');
         }
     </script>
 @endsection
