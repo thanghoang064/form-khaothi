@@ -39,7 +39,7 @@
             <h5 class="fs-1">Danh sách chi tiết</h5>
             <div class="p-2 rounded">
                 <div class="px-5 shadow rounded">
-                    <table class="table table-hover table-responsive table-bordered">
+                    <table id="table1" class="table table-hover table-responsive table-bordered">
 
                         <thead>
                         <tr class="">
@@ -61,9 +61,8 @@
     {{--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>--}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const $ = document.querySelector.bind(document);
-        const $$ = document.querySelectorAll.bind(document);
 
+        let dataTable;
         let myBarChart;
         let myPieChart;
         const boMon = @json($boMon);
@@ -71,26 +70,29 @@
         const thongKeDiemTheoMon = @json($thongKeDiemTheoMon);
         const lopDotThi = Object.values(@json($lopDotThi));
 
-        const boMonElement = $('select[name="bo_mon_id"]');
-        const monHocElement = $('select[name="mon_hoc_id"]');
-        const tableBody = $('table tbody');
-
-
-        listMonHoc(boMonElement.value);
+        $(document).ready(function () {
+            const boMonElement = $('select[name="bo_mon_id"]');
+            listMonHoc(boMonElement.val());
+        })
 
         function listMonHoc(boMonId) {
+            const monHocElement = $('select[name="mon_hoc_id"]');
             const lstMonHocFil = monHoc.filter(item => item.bo_mon_id == boMonId).sort((a, b) => {
                 return a.name.localeCompare(b.name);
             });
             const lstMonHoc = lstMonHocFil.map(e => `<option value="${e.mon_hoc_id}">${e.name}</option>`);
-            monHocElement.innerHTML = lstMonHoc.join('');
-            listLopHoc(monHocElement.value);
+            monHocElement.html(lstMonHoc.join(''));
+            listLopHoc(monHocElement.val());
         }
 
         function listLopHoc(monHocId) {
+
+            const tableBody = $('table tbody');
+            if (dataTable) {
+                dataTable.destroy();
+            }
             thongKeMon = thongKeDiemTheoMon[monHocId];
             monHocName = monHoc.find(item => item.mon_hoc_id == monHocId).name;
-
             soLuongDiemTheoMon = Object.values(thongKeMon).reduce((acc, each) => acc += each);
             thongKeMonTheoPhanTram = [];
             Object.values(thongKeMon).forEach(item => {
@@ -98,8 +100,8 @@
             })
 
             // thongKeMon = Object.values(thongKeDiemTheoMon[monHocId]);
-            const barChart = $('#myBarChart').getContext('2d');
-            const pieChart = $('#myPieChart').getContext('2d');
+            const barChart = $('#myBarChart').get(0).getContext('2d');
+            const pieChart = $('#myPieChart').get(0).getContext('2d');
             if (myBarChart) {
                 myBarChart.destroy();
             }
@@ -187,7 +189,7 @@
                 }, responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    yAxes: [{
+                    y: [{
                         ticks: {
                             beginAtZero: true
                         }
@@ -221,7 +223,8 @@
                     </tr>
             `
             });
-            tableBody.innerHTML = lstLopHoc.join('')
+            tableBody.html(lstLopHoc.join(''));
+            dataTable = new DataTable('#table1');
         }
     </script>
 @endsection

@@ -25,6 +25,11 @@ License: For each use you must have a valid license purchased only from above li
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
     <link rel="shortcut icon" href="{{asset('metronic')}}/media/logos/favicon.ico" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
     <!--begin::Fonts-->
     @include('layouts.admin._partials.css')
     @yield('page-style')
@@ -132,6 +137,7 @@ License: For each use you must have a valid license purchased only from above li
 </div>
 <!--end::Scrolltop-->
 @include('layouts.admin._partials.js')
+
 @yield('page-script')
 <!--end::Javascript-->
 </body>
