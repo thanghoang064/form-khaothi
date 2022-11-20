@@ -30,7 +30,7 @@
                     <td>{{$kq->so_sv_vang_mat}}</td>
                     <td>{{$kq->ma_sv_vang_mat}}</td>
                     <td>{{$kq->so_sv_vi_pham}}</td>
-                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d h:i:s', $kq->created_at)->format('d/m/Y h:i:s')}}</td>
+                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $kq->created_at)->format('d/m/Y H:i:s')}}</td>
                     <td>
                         <a target="_blank" href="{{route('form.taifilebaocao', ['luotbaocao' => $kq->id])}}" class="btn btn-sm btn-info" title="Tải file xuống">
                             <i class="fa fa-download"></i>
