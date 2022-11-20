@@ -4,26 +4,28 @@
 @endsection
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-center h-100">
-            <div class="card">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div >
 
-                <div class="card-body">
-                    <div class="card-header">
-                        <h3>Sign In</h3>
+                <div >
+                    <div class="card-header text-center mb-3">
+                        <img src="{{asset('images')}}/logofpt.png" class="w-75" alt="">
                     </div>
                     <div class="d-grid gap-2 col-12 mx-auto">
-                        <a class="btn" href="{{route('login.google')}}" style="background: #FFC210; color: #fff; text-transform: uppercase">
-                            <i class="fab fa-google-plus-square" aria-hidden="true"></i>
-                            Đăng nhập với tài khoản google
+                        <a class="btn" href="{{route('login.google')}}" style="background: #fd1361; color: #fff;">
+                            <i class="fab fa-google-plus-square me-2" aria-hidden="true"></i>
+                             Google
                         </a>
-                        <a class="btn" href="{{route('login.fake')}}" style="background: #FFC210; color: #fff; text-transform: uppercase">
-                            <i class="fab fa-google-plus-square" aria-hidden="true"></i>
-                            Đăng nhập fake
-                        </a>
+{{--                        <a class="btn" href="{{route('login.fake')}}" style="background: #FFC210; color: #fff; text-transform: uppercase">--}}
+{{--                            <i class="fab fa-google-plus-square" aria-hidden="true"></i>--}}
+{{--                            Đăng nhập fake--}}
+{{--                        </a>--}}
+
                         @if (session('msg'))
-                            <p class="text-danger msg-err">
-                                {{ session('msg') }}
-                            </p>
+                            <div class="alert alert-danger" role="alert" data-mdb-color="danger">
+                                <i class="fas fa-times-circle me-3"></i> {{ session('msg') }}
+                            </div>
+
                         @endif
                     </div>
                 </div>

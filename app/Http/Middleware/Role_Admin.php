@@ -17,10 +17,10 @@ class Role_Admin
      */
     public function handle(Request $request, Closure $next)
     {
-//        if(!Auth::check() || Auth::user()->role_id != 1  ){
-//            Auth::logout();
-//            return redirect(route('login'))->with('msg', 'Bạn không có quyền truy cập');
-//        }
+        if(!Auth::check() || Auth::user()->role_id != 2 && Auth::user()->role_id != 3  ){
+            Auth::logout();
+            return redirect(route('login'))->with('msg', 'Bạn không có quyền truy cập');
+        }
         return $next($request);
     }
 }

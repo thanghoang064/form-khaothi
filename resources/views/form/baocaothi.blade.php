@@ -5,7 +5,7 @@
     <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
 @endsection
 @section('content')
-    @include('sweetalert::alert')
+{{--    @include('sweetalert::alert')--}}
     @if(Session::has('error'))
         <script>
             swal('Error!', '{{ Session::get('error') }}', 'error');

@@ -1,13 +1,13 @@
 /* Made with love by Mutiullah Samim*/
 
 @import url('https://fonts.googleapis.com/css?family=arial');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
 html,body{
-    background-image: url('/images/login-bg.jpeg');
+    background-image: url('/images/bg-3.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
-    font-family: 'Numans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .container{
@@ -16,10 +16,16 @@ html,body{
 }
 
 .card{
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 400px;
-    background-color: rgba(0,0,0,0.5) !important;
+/*    margin-top: auto;*/
+/*    margin-bottom: auto;*/
+/*    width: 400px;*/
+    background-color: #fd1361 !important;
+}
+
+.btn:hover {
+    border-color:#fd1361 !important;
+    opacity: 0.7;
+    transition: .4s;
 }
 
 .social_icon span{
