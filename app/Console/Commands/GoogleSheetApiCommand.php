@@ -339,7 +339,7 @@ class GoogleSheetApiCommand extends Command
             $accessToken = json_decode(file_get_contents($tokenPath), true);
             $client->setAccessToken($accessToken);
         }
-        dd($client);
+
         if ($client->isAccessTokenExpired()) {
             if ($client->getRefreshToken()) {
                 $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
