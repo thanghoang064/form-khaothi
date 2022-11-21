@@ -333,7 +333,7 @@ class GoogleSheetApiCommand extends Command
         $client->setScopes(Google_Service_Sheets::SPREADSHEETS);
         $client->setAuthConfig(config_path('credentials.json'));
         $client->setAccessType('offline');
-
+        $client->setApprovalPrompt('force');
         $tokenPath = storage_path('app/token.json');
         if (file_exists($tokenPath)) {
             $accessToken = json_decode(file_get_contents($tokenPath), true);
