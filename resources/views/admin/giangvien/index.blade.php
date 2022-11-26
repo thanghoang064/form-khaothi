@@ -206,11 +206,13 @@
                 <thead>
                 <tr>
                     <th class="fw-bolder">Tên giảng viên</th>
-                    <th class="fw-bolder">Email</th>
+                    <th class="fw-bolder">Email FPT</th>
+                    <th class="fw-bolder">Email FE</th>
+                    <th class="fw-bolder">SDT</th>
                     <th class="fw-bolder">Chức vụ</th>
                     @if($user_account->role_id == 2)
                         <th class="fw-bolder">Bộ môn</th>
-                    @elseif($user_account->role_id == 2)
+                    @elseif($user_account->role_id == 3)
                         <th colspan="2" class="fw-bolder">Set bộ môn</th>
                     @endif
                 </tr>
@@ -222,6 +224,8 @@
                     <tr>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
+                        <td>haufe@fpt.edu.vn(test)</td>
+                        <td>0353773773(test)</td>
                         <td id="chucvu{{ $user->id }}">{{$roles->find($user->role_id)->name}}</td>
                         <td>
                             @if($user->role_id == 3 || $user->role_id == 1)

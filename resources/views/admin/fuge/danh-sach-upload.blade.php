@@ -1,6 +1,8 @@
 @extends('layouts.admin.master')
-@section('module-name', "Fuge")
+@section('module-name', "Danh sách giảng viên")
 @section('page-name', 'Lịch sử upload')
+@section('page-style')
+@endsection
 @section('content')
     <div class="container main-content ">
         <div class="d-flex justify-content-between align-items-center">
@@ -20,11 +22,38 @@
                 </button>
             </form>
         </div>
-        <table class="table table-hover table-bordered">
-            <thead>
-            <tr class="">
+{{--        <table class="table">--}}
+{{--            <thead>--}}
+{{--            <tr class="">--}}
+{{--                <th class="fw-bolder">Học Kỳ</th>--}}
+{{--                <th class="fw-bolder">Ngày upload</th>--}}
+{{--                <th class="fw-bolder">Tải file</th>--}}
+{{--            </tr>--}}
+{{--            </thead>--}}
+{{--            <tbody>--}}
+{{--            @foreach($danhsach as $ds)--}}
+{{--                <tr class="">--}}
+{{--                    <td>--}}
+{{--                        {{ $arrKyHoc[$ds->hoc_ky_id] }}--}}
+{{--                    </td>--}}
+{{--                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $ds->created_at)->format('d/m/Y H:i:s')}}</td>--}}
+{{--                    <td>--}}
+{{--                        <a target="_blank" href="{{route('fuge.download', ['id' => $ds->id])}}"--}}
+{{--                           class="btn btn-sm btn-info" title="Tải file xuống">--}}
+{{--                            <i class="fa fa-download"></i>--}}
+{{--                        </a>--}}
+{{--                    </td>--}}
+{{--                </tr>--}}
+{{--            @endforeach--}}
+{{--            </tbody>--}}
+{{--        </table>--}}
+
+        <table class="table align-middle my-5 bg-white ">
+            <thead >
+            <tr>
                 <th class="fw-bolder">Học Kỳ</th>
                 <th class="fw-bolder">Ngày upload</th>
+                <th class="fw-bolder">Status</th>
                 <th class="fw-bolder">Tải file</th>
             </tr>
             </thead>
@@ -32,9 +61,18 @@
             @foreach($danhsach as $ds)
                 <tr class="">
                     <td>
-                        {{ $arrKyHoc[$ds->hoc_ky_id] }}
+                        <div class="d-flex align-items-center">
+                            <div class="ms-3">
+                                <p class=" mb-0"> {{ $arrKyHoc[$ds->hoc_ky_id] }}</p>
+                            </div>
+                        </div>
                     </td>
-                    <td>{{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $ds->created_at)->format('d/m/Y H:i:s')}}</td>
+                    <td>
+                        {{Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $ds->created_at)->format('d-m-Y / H:i:s')}}
+                    </td>
+                    <td>
+                        <span class="badge badge-success rounded-pill d-inline">Active</span>
+                    </td>
                     <td>
                         <a target="_blank" href="{{route('fuge.download', ['id' => $ds->id])}}"
                            class="btn btn-sm btn-info" title="Tải file xuống">
