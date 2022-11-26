@@ -224,8 +224,8 @@
                     <tr>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
-                        <td>haufe@fpt.edu.vn(test)</td>
-                        <td>0353773773(test)</td>
+                        <td></td>
+                        <td></td>
                         <td id="chucvu{{ $user->id }}">{{$roles->find($user->role_id)->name}}</td>
                         <td>
                             @if($user->role_id == 3 || $user->role_id == 1)
