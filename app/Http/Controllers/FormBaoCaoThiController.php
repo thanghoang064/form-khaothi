@@ -147,9 +147,11 @@ class FormBaoCaoThiController extends Controller
         $dirName = 'file-thi-10b/' . $dotthi->name . '/' . $bomon->name . '/' . $monhoc->name . '/' . mb_strtoupper(trim($ten_lop));
         $dirName .= '/' . str_replace('-', '_', $ngaythi) . ".ca-" . $ca_thi;
         //        dd($dirName);
-        $googleDisk = Storage::disk('local');
+        $googleDisk = Storage::disk('second_google');
         $nameFile = $request->file('file_excel')->getClientOriginalName();
-        $filePath = $request->file('file_excel')->storeAs($dirName, $nameFile);
+        $filePath = $dirName . '/' . $nameFile;
+//        $filePath = $request->file('file_excel')->storeAs($dirName, $nameFile);
+        $googleDisk->put($filePath, file_get_contents($request->file('file_excel')));
         if ($model) {
             $googleDisk->delete($model->file_10b);
         } else {
@@ -247,7 +249,7 @@ class FormBaoCaoThiController extends Controller
         $fileInfo = pathinfo($luotBaoCao->file_10b);
         $ext = $fileInfo['extension'];
         $downloadFileName = $luotBaoCao->ten_lop . '_' . $luotBaoCao->ngay_thi . "_ca-" . $luotBaoCao->ca_thi . '.' . $ext;
-        $googleDisk = Storage::disk('local');
+        $googleDisk = Storage::disk('second_google');
         $file = $googleDisk->get($luotBaoCao->file_10b);
         return response()->streamDownload(function () use ($file) {
             echo $file;

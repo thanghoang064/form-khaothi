@@ -39,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -62,7 +62,21 @@ return [
             'refreshToken' => env('GOOGLE_REFRESH_TOKEN'),
             'folder' => env('GOOGLE_DRIVE_FOLDER'), // without folder is root of drive or team drive
             //'teamDriveId' => env('GOOGLE_DRIVE_TEAM_DRIVE_ID'),
-        ]
+        ],
+//        'second_google' => [
+//            'driver' => 'google',
+//            'clientId' => env('SECOND_GOOGLE_DRIVE_CLIENT_ID'),
+//            'clientSecret' => env('SECOND_GOOGLE_DRIVE_CLIENT_SECRET'),
+//            'refreshToken' => env('SECOND_GOOGLE_DRIVE_REFRESH_TOKEN'),
+//            'folder' => env('SECOND_GOOGLE_DRIVE_FOLDER'),
+//        ],
+        'second_google' => [
+            'driver' => 'google',
+            'clientId' => "253603909551-fpf45ohbtpl9bb379lhibbj3uufarc14.apps.googleusercontent.com",
+            'clientSecret' => "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",
+            'refreshToken' => "1//04HzSRxAfkVLCCgYIARAAGAQSNwF-L9Ir9N1TkIDIlsC37KCJlZY6BvRCWLGYa4ZQpSXd1aRaiOC7wQ0wXu7FYgv3vlpv8m4g3OA",
+            'folder' => "",
+        ],
 
     ],
 
