@@ -151,8 +151,10 @@ class GetDataDotThiPodCast
         foreach ($usersDiff as $key => $email) {
             $name = explode("@", $email)[0];
             if (!empty($name)) { // Nếu tồn tại name mới cho thêm
+                $email_fe = $name . '@fe.edu.vn';
                 $giamThi1DataAdd[$key]['name'] = $name;
                 $giamThi1DataAdd[$key]['email'] = $email;
+                $giamThi1DataAdd[$key]['email_fe'] = $email_fe;
                 $giamThi1DataAdd[$key]['password'] = Hash::make(uniqid());
                 $giamThi1DataAdd[$key]['role_id'] = 1;
             }

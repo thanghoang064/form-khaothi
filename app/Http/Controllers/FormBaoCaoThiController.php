@@ -97,11 +97,15 @@ class FormBaoCaoThiController extends Controller
         $sinhVienAdd = [];
         foreach ($maSinhVienFil as $msv) {
             $sinhVien = [];
+            $tenSinhVien = $thongTinSinhVien[$msv];
+            $tenDangNhap = $this->getSinhVienUsername($tenSinhVien, $msv);
             $sinhVien['ma_sinh_vien'] = $msv;
-            $sinhVien['ten_sinh_vien'] = $thongTinSinhVien[$msv];
+            $sinhVien['ten_sinh_vien'] = $tenSinhVien;
+            $sinhVien['ten_dang_nhap'] = $tenDangNhap;
             $sinhVienAdd[] = $sinhVien;
         }
-        DB::table('sinh_vien')->insert($sinhVienAdd);
+        SinhVien::insert($sinhVienAdd);
+//        dd('done');
 
         // Sau khi thêm thì lấy ra toàn bộ sinh viên của lớp trong db
         $sinhVienArr = [];
@@ -147,9 +151,12 @@ class FormBaoCaoThiController extends Controller
         $dirName = 'file-thi-10b/' . $dotthi->name . '/' . $bomon->name . '/' . $monhoc->name . '/' . mb_strtoupper(trim($ten_lop));
         $dirName .= '/' . str_replace('-', '_', $ngaythi) . ".ca-" . $ca_thi;
         //        dd($dirName);
-        $googleDisk = Storage::disk('local');
+//        $googleDisk = Storage::disk('local');
+        $googleDisk = Storage::disk('second_google');
         $nameFile = $request->file('file_excel')->getClientOriginalName();
-        $filePath = $request->file('file_excel')->storeAs($dirName, $nameFile);
+//        $filePath = $request->file('file_excel')->storeAs($dirName, $nameFile);
+        $filePath = $dirName . '/' . $nameFile;
+        $googleDisk->put($filePath, file_get_contents($request->file('file_excel')));
         if ($model) {
             $googleDisk->delete($model->file_10b);
         } else {
@@ -166,6 +173,20 @@ class FormBaoCaoThiController extends Controller
         $model->ca_thi = $ca_thi;
         $model->save();
         return redirect(route('form.thanhcong'));
+    }
+
+    function getSinhVienUsername($tenSinhVien, $maSinhVien)
+    {
+        $tenSinhVien = $this->vn_to_str($tenSinhVien);
+        $tenSinhVienArr = explode(' ', $tenSinhVien);
+        $length = count($tenSinhVienArr);
+        $username = $tenSinhVienArr[$length - 1];
+
+        for ($i = 0; $i < $length - 1; $i++) {
+            $username .= $tenSinhVienArr[$i][0];
+        }
+        $username .= $maSinhVien;
+        return strtolower($username);
     }
 
     public function handleData($data)
@@ -247,12 +268,59 @@ class FormBaoCaoThiController extends Controller
         $fileInfo = pathinfo($luotBaoCao->file_10b);
         $ext = $fileInfo['extension'];
         $downloadFileName = $luotBaoCao->ten_lop . '_' . $luotBaoCao->ngay_thi . "_ca-" . $luotBaoCao->ca_thi . '.' . $ext;
-        $googleDisk = Storage::disk('local');
+//        $googleDisk = Storage::disk('local');
+        $googleDisk = Storage::disk('second_google');
         $file = $googleDisk->get($luotBaoCao->file_10b);
         return response()->streamDownload(function () use ($file) {
             echo $file;
         }, $downloadFileName);
         //        dd($path);
+
+    }
+
+    public function vn_to_str($str)
+    {
+
+        $unicode = array(
+
+            'a' => 'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ',
+
+            'd' => 'đ',
+
+            'e' => 'é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ',
+
+            'i' => 'í|ì|ỉ|ĩ|ị',
+
+            'o' => 'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ',
+
+            'u' => 'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự',
+
+            'y' => 'ý|ỳ|ỷ|ỹ|ỵ',
+
+            'A' => 'Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ',
+
+            'D' => 'Đ',
+
+            'E' => 'É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ',
+
+            'I' => 'Í|Ì|Ỉ|Ĩ|Ị',
+
+            'O' => 'Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ',
+
+            'U' => 'Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự',
+
+            'Y' => 'Ý|Ỳ|Ỷ|Ỹ|Ỵ',
+
+        );
+
+        foreach ($unicode as $nonUnicode => $uni) {
+
+            $str = preg_replace("/($uni)/i", $nonUnicode, $str);
+
+        }
+//        $str = str_replace(' ', '_', $str);
+
+        return $str;
 
     }
 }

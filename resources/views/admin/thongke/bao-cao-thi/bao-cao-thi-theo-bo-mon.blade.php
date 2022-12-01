@@ -77,6 +77,7 @@
     </div>
     <script>
         const thongKe = Object.values(@json($thongKeBaoCaoThiTheoBoMon));
+        console.log(thongKe);
         let dataTable;
 
         $(document).ready(function () {
@@ -86,7 +87,7 @@
 
 
         function listThongKe(boMonId) {
-
+            console.log(boMonId)
             if (dataTable) {
                 dataTable.destroy();
             }
@@ -98,6 +99,7 @@
             const table = $('#table1');
 
             let boMon = thongKe.find((item) => item.id == boMonId);
+            console.log(boMon);
             soCaBaoCaoElement.html(boMon.so_ca_thi);
             soCaDaBaoCaoElement.html(boMon.so_ca_da_bao_cao);
             soCaChuaBaoCaoElement.html(boMon.so_ca_chua_bao_cao);
@@ -115,8 +117,7 @@
                 </tr>
                 `;
             })
-            let noDataHtml = `<tr><td colspan="5">Không có giảng viên</td></tr>`;
-            let html = (htmlArr.length === 0) ? noDataHtml : htmlArr.join('');
+            let html = htmlArr.join('');
             tableBody.html(html);
             dataTable = new DataTable('#table1');
         }
