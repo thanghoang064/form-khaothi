@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiemEos;
 use App\Models\DiemSinhVien;
+use App\Models\Monhoc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -13,23 +15,28 @@ use App\Models\DotThi;
 use App\Models\MonDotThi;
 use App\Models\CaDotThi;
 use App\Models\LopDotThi;
+use App\Models\QuanLyFileEos;
 use Illuminate\Support\Facades\Auth;
 
 class ThongKeController extends Controller
 {
-//    public $hocKy;
-//    public $hasHocKy;
+    public $hocKy;
+    public $hasHocKy;
     public $dotThi;
     public $hasDotThi;
     public $boMon;
+    public $maBoMonToName = [];
 
     public function __construct()
     {
-//        $this->hocKy = KyHoc::select('id', 'name')->where('status', '1')->orderBy('id', 'DESC')->first();
-//        $this->hasHocKy = !empty($this->hocKy);
+        $this->hocKy = KyHoc::select('id', 'name')->where('status', '1')->orderBy('id', 'DESC')->first();
+        $this->hasHocKy = !empty($this->hocKy);
         $this->dotThi = DotThi::select('id', 'name')->where('status', '1')->first();
         $this->hasDotThi = !empty($this->dotThi);
         $this->boMon = BoMon::all()->toArray();
+        foreach ($this->boMon as $bm) {
+            $this->maBoMonToName[$bm['id']] = $bm['name'];
+        }
     }
 
     public function baoCaoThi()
@@ -71,7 +78,7 @@ class ThongKeController extends Controller
     public function baoCaoThiTheoBoMon()
     {
         if (!$this->hasDotThi) {
-            return view('admin.thongke.loi-thong-ke');
+            return view('admin.thongke.loi-dot-thi-thong-ke');
         }
 
         extract($this->getBaoCaoThiTheoBoMon());
@@ -148,7 +155,11 @@ class ThongKeController extends Controller
                 'ti_le_bao_cao' => $ti_le_bao_cao,
             ];
         }
-//        dd($thongKeBaoCaoThiTheoBoMon);
+        foreach ($thongKeBaoCaoThiTheoBoMon as $id => $item) {
+            if (empty($item['danh_sach'])) {
+                $thongKeBaoCaoThiTheoBoMon[$id]['danh_sach'] = [];
+            }
+        }
         return view('admin.thongke.bao-cao-thi.bao-cao-thi-theo-bo-mon', [
             'dotThiName' => $this->dotThi->name,
             'thongKeBaoCaoThiTheoBoMon' => $thongKeBaoCaoThiTheoBoMon,
@@ -216,7 +227,7 @@ class ThongKeController extends Controller
     public function thongKeDiem()
     {
         if (!$this->hasDotThi) {
-            return view('admin.thongke.loi-thong-ke');
+            return view('admin.thongke.loi-dot-thi-thong-ke');
         }
 
         $tieuChiThongKe = [
@@ -297,6 +308,107 @@ class ThongKeController extends Controller
         ]);
     }
 
+    public function thongKeDiemEos()
+    {
+        if (!$this->hasHocKy) {
+            return view('admin.thongke.loi-ky-hoc-thong-ke');
+        }
+        $fileEos = QuanLyFileEos::select('created_at', 'hoc_ky_id')
+            ->get()->toArray();
+        $idHocKyHienTai = $this->hocKy->id;
+        $kyHoc = KyHoc::select('id', 'name')->get()->toArray();
+        $kyHocArr = array_map(function ($item) {
+            return $item['id'];
+        }, $kyHoc);
+        $thongKeTheoKy = [];;
+        foreach ($kyHocArr as $kh) {
+            $thoi_gian_cap_nhat = QuanLyFileEos::select('created_at')
+                ->where('hoc_ky_id', $kh)
+                ->orderBy('id', 'desc')
+                ->first()->toArray();
+            $thoi_gian_cap_nhat = date('H:i d-m-Y', strtotime($thoi_gian_cap_nhat['created_at']));
+            $thongKeTheoKy[$kh] = [
+                'hoc_ky_id' => $kh,
+                'thoi_gian_cap_nhat' => $thoi_gian_cap_nhat,
+                'thong_ke' => [],
+            ];
+        }
+
+        $tieuChiThongKe = [
+            [0, 0.99],
+            [1, 1.99],
+            [2, 2.99],
+            [3, 3.99],
+            [4, 4.99],
+            [5, 5.99],
+            [6, 6.99],
+            [7, 7.99],
+            [8, 8.99],
+            [9, 9.99],
+            [10],
+        ];
+
+        $diemEosDb = DiemEos::select('diem', 'mon_hoc_id', 'ky_hoc_id')
+//            ->where('ky_hoc_id', $this->hocKy->id)
+            ->get()->toArray();
+//        dd($diemEosDb);
+        $monHocId = DiemEos::select('mon_hoc_id', 'ky_hoc_id')
+            ->groupBy('mon_hoc_id', 'ky_hoc_id')
+//            ->having('ky_hoc_id', $this->hocKy->id)
+            ->get()->toArray();
+        $monHocIdArr = array_unique(array_map(function ($item) {
+            return $item['mon_hoc_id'];
+        }, $monHocId));
+//        dd($monHocIdArr);
+        $monHoc = Monhoc::select('id', 'name', 'bo_mon_id', 'ma_mon_hoc')
+            ->whereIn('id', $monHocIdArr)
+            ->get()->toArray();
+        $idMonHocToInfo = [];
+        foreach ($monHoc as $mh) {
+            $idMonHocToInfo[$mh['id']] = $mh;
+        }
+
+//        $monHocArr = [];
+        foreach ($monHocId as $mh) {
+            extract($mh);
+//            dd($mon_hoc_id);
+            $monHoc = $idMonHocToInfo[$mon_hoc_id];
+            $mon = [];
+            $mon['id'] = $monHoc['id'];
+            $mon['name'] = $monHoc['name'];
+            $mon['ma_mon'] = $monHoc['ma_mon_hoc'];
+            $mon['ma_bo_mon'] = $monHoc['bo_mon_id'];
+            $mon['ten_bo_mon'] = $this->maBoMonToName[$monHoc['bo_mon_id']];
+            $mon['thong_ke_diem'] = [];
+            foreach ($tieuChiThongKe as $item) {
+                $key = 'range_' . implode('_', $item);
+                $mon['thong_ke_diem'][$key] = 0;
+            }
+            $thongKeTheoKy[$ky_hoc_id]['thong_ke'][$monHoc['id']] = $mon;
+        }
+//        dd($thongKeTheoKy);
+
+        foreach ($diemEosDb as $diemEos) {
+//            dd($diemEos);
+            extract($diemEos);
+            foreach ($tieuChiThongKe as $each) {
+                if ($this->soSanhDiemEos($each, $diem)) {
+                    $key = 'range_' . implode('_', $each);
+                    if (!empty($thongKeTheoKy[$ky_hoc_id]['thong_ke'][$mon_hoc_id])) {
+                        $thongKeTheoKy[$ky_hoc_id]['thong_ke'][$mon_hoc_id]['thong_ke_diem'][$key]++;
+                    }
+                    break;
+                }
+            }
+        }
+        $dataView = [
+            'hocKy' => $kyHoc,
+            'idHocKyHienTai' => $idHocKyHienTai,
+            'thongKeDiemTheoKy' => $thongKeTheoKy,
+        ];
+        return view('admin.thongke.pho-diem.pho-diem-eos', $dataView);
+    }
+
     public function tinhTongDiem($tieuChiThongKe, &$tong, &$item, $setDefault = false)
     {
         foreach ($tieuChiThongKe as $each) {
@@ -312,11 +424,21 @@ class ThongKeController extends Controller
 
     public function soSanhDiem(array $khoangDiem, $diem)
     {
+        $diem = number_format((float)$diem, 2, '.', '');
         [$min, $max] = $khoangDiem;
         if ($max === 10) {
             return $diem >= $min && $diem <= $max;
         }
         return $diem >= $min && $diem < $max;
+    }
+
+    public function soSanhDiemEos(array $khoangDiem, $diem)
+    {
+        if (count($khoangDiem) === 2) {
+            [$min, $max] = $khoangDiem;
+            return $diem >= $min && $diem < $max;
+        }
+        return $diem === $khoangDiem[0];
     }
 
 

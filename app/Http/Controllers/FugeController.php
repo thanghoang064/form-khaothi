@@ -29,11 +29,15 @@ class FugeController extends Controller
         $username = explode('@', $user->email)[0];
 
 
-        $dirName = 'public/uploads/fuge/' . str_replace(' ', '-', mb_strtolower($kyhoc->name)) . '/' . $username;
-        $nameFile = date("d_m_Y_H_i_s").'-' . $request->file('file_fuge')->getClientOriginalName();
+        $dirName = 'fuge/' . str_replace(' ', '-', mb_strtolower($kyhoc->name)) . '/' . $username;
+        $nameFile = date("d_m_Y_H_i_s") . '-' . $request->file('file_fuge')->getClientOriginalName();
         $text = strlen($nameFile);
         $code = substr($nameFile, $text - 3);
-        $filePath = $request->file('file_fuge')->storeAs($dirName, $nameFile);
+//        $filePath = $request->file('file_fuge')->storeAs($dirName, $nameFile);
+        $filePath = $dirName . '/' . $nameFile;
+        $googleDisk = Storage::disk('second_google');
+        $googleDisk->put($filePath, file_get_contents($request->file('file_fuge')));
+
         $model = new Fuge();
         $model->user_id = $user->id;
         $model->hoc_ky_id = $kyhoc->id;
@@ -79,7 +83,8 @@ class FugeController extends Controller
     public function taiFileFuge($id)
     {
         $fileFuge = Fuge::find($id);
-        $googleDisk = Storage::disk('local');
+//        $googleDisk = Storage::disk('local');
+        $googleDisk = Storage::disk('second_google');
         if (!empty($fileFuge->file_name)) {
             return $googleDisk->download($fileFuge->file_name);
         }
