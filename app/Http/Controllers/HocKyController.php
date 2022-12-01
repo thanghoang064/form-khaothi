@@ -34,12 +34,12 @@ class HocKyController extends Controller
     public function new_ky_hoc(request $request){
 //        unique:ky_hoc,name,{$request->name}
         $request->validate(
-            ['name_ky_hoc'=> ['required',new CheckExam(),'min:6'],
+            ['name_ky_hoc'=> ['required',new CheckExam()],
             ],
             [
                 'unique' => 'Đã tồn tại kì học',
                 'required' => 'Không để trống tên kỳ học',
-                'min' => 'Chiều dài tối thiểu :min kí tự'
+//                'min' => 'Chiều dài tối thiểu :min kí tự'
             ]
         );
         $date = date('Y-m-d H:i:s');
@@ -64,11 +64,11 @@ class HocKyController extends Controller
     public function update_ky_hoc(request $request){
         $date = date('Y-m-d H:i:s');
         $rules = [
-            'name_ky_hoc' => 'required|min:6',
+            'name_ky_hoc' => 'required',
         ];
         $messages = [
             'required'=> 'Không để trống',
-            'min' => "Phải trên :min kí tự "
+//            'min' => "Phải trên :min kí tự "
         ];
         $request->validate($rules,$messages);
         new KyHoc();

@@ -28,7 +28,7 @@ class DotThiController extends Controller
                 'name' => "required|unique:dot_thi",
                 'sheet_id' => [
                     'required',
-                    'unique:dot_thi',
+                    'unique:dot_thi,sheet_id',
                     function($attribute, $value, $fail){
                         try {
                             $client = getGooogleClient();
