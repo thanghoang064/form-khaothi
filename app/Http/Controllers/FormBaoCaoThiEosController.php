@@ -210,7 +210,7 @@ class FormBaoCaoThiEosController extends Controller
             $cells = [];
             foreach ($cellIterator as $index => $cell) {
                 $colKey = $cell->getColumn();
-                $value = $cell->getValue();
+                $value = $cell->getCalculatedValue();
                 $checkEmpty = $colKey === $colCheckEmpty && empty($value);
                 if ($checkEmpty): break; endif;
                 if (!array_key_exists($colKey, $colsGet)): continue; endif;
