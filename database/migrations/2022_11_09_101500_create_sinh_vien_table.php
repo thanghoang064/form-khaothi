@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('sinh_vien', function (Blueprint $table) {
             $table->id();
             $table->string('ma_sinh_vien');
-            $table->string('ten_sinh_vien');
+            $table->string('ten_sinh_vien')->nullable();
             $table->timestamps();
         });
     }

@@ -320,13 +320,23 @@ class ThongKeController extends Controller
         $kyHocArr = array_map(function ($item) {
             return $item['id'];
         }, $kyHoc);
-        $thongKeTheoKy = [];;
+        $thongKeTheoKy = [];
+        $thoiGianCapNhat = QuanLyFileEos::select('id', 'created_at', 'hoc_ky_id')
+            ->orderBy('id', 'asc')
+            ->get()->toArray();
+        $thoiGianCapNhatArr = [];
+        foreach ($thoiGianCapNhat as $each) {
+//            dd($each);
+            $hoc_ky_id = $each['hoc_ky_id'];
+            $thoiGianCapNhatArr[$hoc_ky_id] = $each['created_at'];
+        }
+//        dd($thoiGianCapNhatArr, $thoiGianCapNhat);
+//        dd($thoiGianCapNhat);
         foreach ($kyHocArr as $kh) {
-            $thoi_gian_cap_nhat = QuanLyFileEos::select('created_at')
-                ->where('hoc_ky_id', $kh)
-                ->orderBy('id', 'desc')
-                ->first()->toArray();
-            $thoi_gian_cap_nhat = date('H:i d-m-Y', strtotime($thoi_gian_cap_nhat['created_at']));
+            $thoi_gian_cap_nhat = $thoiGianCapNhatArr[$kh] ?? '';
+            if (!empty($thoi_gian_cap_nhat)) {
+                $thoi_gian_cap_nhat = date('H:i d-m-Y', strtotime($thoi_gian_cap_nhat));
+            }
             $thongKeTheoKy[$kh] = [
                 'hoc_ky_id' => $kh,
                 'thoi_gian_cap_nhat' => $thoi_gian_cap_nhat,

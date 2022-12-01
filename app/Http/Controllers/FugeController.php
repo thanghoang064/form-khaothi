@@ -70,16 +70,6 @@ class FugeController extends Controller
         return view('admin.fuge.danh-sach-upload', compact('user', 'danhsach', 'arrKyHoc', 'test'));
     }
 
-    public function lichSuUpload()
-    {
-        $user = Auth::user();
-        $ketqua = Fuge::where('user_id', $user->id)
-            ->orderBy('id')->get();
-        $ketqua->load('monhoc');
-        return view('form.baocaothi-lichsu', compact('ketqua', 'dotthi'));
-
-    }
-
     public function taiFileFuge($id)
     {
         $fileFuge = Fuge::find($id);
