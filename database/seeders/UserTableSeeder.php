@@ -18,10 +18,10 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $data = [
-            ['name' => "Nguyễn Hà Trung Hưng", 'email' => 'hungnth@fpt.edu.vn', 'password' => Hash::make('123456'),'role_id' => 1],
-            ['name' => 'Trần Hữu Thiện', 'email' => 'thienth@fpt.edu.vn', 'password' => Hash::make('123456'),'role_id' => 1],
-            ['name' => 'Hoàng Quang Thắng (FE FPL HN)', 'email' => 'thanghq12@fpt.edu.vn', 'password' => Hash::make('123456'),'role_id' => 2],
-            ['name' => 'Bích test', 'email' => 'bichdtph18289@fpt.edu.vn', 'password' => Hash::make('123456'),'role_id' => 2],
+            ['name' => "Nguyễn Hà Trung Hưng", 'email' => 'hungnth@fpt.edu.vn', 'email_fe' => 'hungnth@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 1],
+            ['name' => 'Trần Hữu Thiện', 'email' => 'thienth@fpt.edu.vn', 'email_fe' => 'thienth@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 1],
+            ['name' => 'Hoàng Quang Thắng (FE FPL HN)', 'email' => 'thanghq12@fpt.edu.vn', 'email_fe' => 'thanghq12@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 2],
+            ['name' => 'Bích test', 'email' => 'bichdtph18289@fpt.edu.vn', 'email_fe' => 'bichdtph18289@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 2],
         ];
         DB::table('users')->insert($data);
     }
