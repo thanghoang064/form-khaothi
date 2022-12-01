@@ -34,6 +34,9 @@ class FormBaoCaoThiEosController extends Controller
 
     public function index()
     {
+        if (empty($this->hocKy)) {
+            return view('admin.bao-cao-thi-eos.loi-ky-hoc');
+        }
         $dataView = [
             'hocKy' => $this->hocKy,
             'hocKyHienTai' => $this->hocKyHienTai,
@@ -223,6 +226,9 @@ class FormBaoCaoThiEosController extends Controller
 
     function lichSuUpload()
     {
+        if (empty($this->hocKy)) {
+            return view('admin.bao-cao-thi-eos.loi-ky-hoc');
+        }
         $quanLyFileEos = QuanLyFileEos::select('id', 'file_path', 'hoc_ky_id', 'created_at')
             ->get()->toArray();
         $hocKyArr = [];

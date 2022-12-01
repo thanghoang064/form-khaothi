@@ -224,7 +224,7 @@
                     <tr>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
-                        <td></td>
+                        <td>{{$user->email_fe}}</td>
                         <td></td>
                         <td id="chucvu{{ $user->id }}">{{$roles->find($user->role_id)->name}}</td>
                         <td>
@@ -265,6 +265,7 @@
                             <tr>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
+                                <td>{{$user->email_fe}}</td>
                                 <td>{{$roles->find($user->role_id)->name}}</td>
                                 <td>{{$bomon->find($user_account->role_bomon)->name}}</td>
                                 <td>

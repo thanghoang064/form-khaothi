@@ -62,8 +62,11 @@
         function listThongKe(hocKyId) {
             const thongKe = thongKeDiemTheoKy.find(item => item.hoc_ky_id == hocKyId);
             const updateElement = $('#updateElement');
-            console.log(updateElement);
-            updateElement.html(`\(Cập nhật lúc ${thongKe.thoi_gian_cap_nhat}\)`);
+            let status = '(Chưa có dữ liệu)';
+            if (thongKe.thoi_gian_cap_nhat) {
+                status = `\(Cập nhật lúc ${thongKe.thoi_gian_cap_nhat}\)`
+            }
+            updateElement.html(status);
             const tableBody = $('table tbody');
             if (dataTable) {
                 dataTable.destroy();

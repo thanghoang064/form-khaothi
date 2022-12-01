@@ -7,8 +7,8 @@
     <div class="container px-5 my-5 ">
         <div class="row">
             <div class="col-md-10 offset-md-1 card-form pb-5 pt-5">
-                <h3>Upload file fuge</h3>
-                <p>This's form to upload fuge file</p>
+                <h3>Gửi file fuge</h3>
+                <p>Giảng viên gửi file fuge lên hệ thống tại form này</p>
                 <form id="fugeForm" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
