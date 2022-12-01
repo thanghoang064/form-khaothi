@@ -294,35 +294,35 @@ class GoogleSheetApiCommand extends Command
         }
 
         DB::table('ca_dot_thi')->insert($caDotThiAdd);
-
-        dd('Success');
+        Log::debug('update sheet 1 data success');
+        //dd('Success');
 
         // add/edit values
-        $data = [
-            [
-                'column A2',
-                'column B2',
-                'column C2',
-                'column D2',
-            ],
-            [
-                'column A3',
-                'column B3',
-                'column C3',
-                'column D3',
-            ],
-        ];
-        $requestBody = new \Google_Service_Sheets_ValueRange([
-            'values' => $data
-        ]);
+//        $data = [
+//            [
+//                'column A2',
+//                'column B2',
+//                'column C2',
+//                'column D2',
+//            ],
+//            [
+//                'column A3',
+//                'column B3',
+//                'column C3',
+//                'column D3',
+//            ],
+//        ];
+//        $requestBody = new \Google_Service_Sheets_ValueRange([
+//            'values' => $data
+//        ]);
+//
+//        $params = [
+//            'valueInputOption' => 'RAW'
+//        ];
+//
+//        $service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
+//        echo "SUCCESS \n";
 
-        $params = [
-            'valueInputOption' => 'RAW'
-        ];
-
-        $service->spreadsheets_values->update($spreadsheetId, $range, $requestBody, $params);
-        echo "SUCCESS \n";
-        Log::debug('update sheet 1 data success');
     }
 
 
