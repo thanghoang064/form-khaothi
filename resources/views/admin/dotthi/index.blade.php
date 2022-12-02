@@ -14,6 +14,7 @@
                 <th>Thống kê</th>
                 <th>
                     <a href="{{route('dotthi.add')}}" class="btn btn-sm btn-success">Tạo mới</a>
+                    <a href="{{route('dotthi.tai-file-mau')}}" class="btn btn-sm btn-info">Tải file mẫu</a>
                 </th>
                 </thead>
                 <tbody>

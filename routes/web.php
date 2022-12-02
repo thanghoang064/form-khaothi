@@ -61,6 +61,7 @@ Route::group(['middleware' => 'admin_role', 'prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'dot-thi'], function () {
         Route::get('', [\App\Http\Controllers\DotThiController::class, 'index'])->name('dotthi.index');
+        Route::get('tai-file-mau', [\App\Http\Controllers\DotThiController::class, 'taiFileMau'])->name('dotthi.tai-file-mau');
         Route::get('tao-moi', [\App\Http\Controllers\DotThiController::class, 'addForm'])->name('dotthi.add');
         Route::post('tao-moi', [\App\Http\Controllers\DotThiController::class, 'saveAdd']);
         Route::get('sua', [\App\Http\Controllers\DotThiController::class, 'editForm'])->name('dotthi.edit');
