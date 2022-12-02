@@ -155,7 +155,7 @@ class FormBaoCaoThiEosController extends Controller
 //        dd($diemEosAdd);
         DB::table('diem_eos')->insert($diemEosAdd);
 //        dd('done');
-        $dirName = 'eos/' . str_replace(' ', '-', mb_strtolower($hocKy->name)) . '/' . date("d_m_Y_H_i_s");
+        $dirName = 'luutru-khaothi/eos/' . $hocKy->name . '/' . date("d_m_Y_H_i_s");
         $nameFile = date("d_m_Y_H_i_s") . '-eos' . '.' . $request->file('file_excel')->getClientOriginalExtension();
         $filePath = $dirName . '/' . $nameFile;
         $googleDisk = Storage::disk('second_google');
@@ -272,7 +272,7 @@ class FormBaoCaoThiEosController extends Controller
     public function taiFileMau()
     {
         $downloadFileName = 'file_mau_bao_cao_thi_eos.xlsx';
-        $filePath = 'file-mau/' . $downloadFileName;
+        $filePath = 'luutru-khaothi/file-mau/' . $downloadFileName;
         $googleDisk = Storage::disk('second_google');
         $file = $googleDisk->get($filePath);
         return response()->streamDownload(function () use ($file) {

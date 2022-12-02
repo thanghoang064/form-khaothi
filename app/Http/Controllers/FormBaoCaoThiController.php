@@ -148,7 +148,7 @@ class FormBaoCaoThiController extends Controller
             ->where('ten_lop', mb_strtoupper(trim($ten_lop)))
             ->first();
 
-        $dirName = 'file-thi-10b/' . $dotthi->name . '/' . $bomon->name . '/' . $monhoc->name . '/' . mb_strtoupper(trim($ten_lop));
+        $dirName = 'luutru-khaothi/file-thi-10b/' . $dotthi->name . '/' . $bomon->name . '/' . $monhoc->name . '/' . mb_strtoupper(trim($ten_lop));
         $dirName .= '/' . str_replace('-', '_', $ngaythi) . ".ca-" . $ca_thi;
         //        dd($dirName);
 //        $googleDisk = Storage::disk('local');
