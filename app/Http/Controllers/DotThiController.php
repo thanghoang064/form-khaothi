@@ -112,7 +112,7 @@ class DotThiController extends Controller
     public function taiFileMau()
     {
         $downloadFileName = 'Đợt thi mẫu.xlsx';
-        $filePath = 'file-mau/' . $downloadFileName;
+        $filePath = 'luutru-khaothi/file-mau/' . $downloadFileName;
         $googleDisk = Storage::disk('second_google');
         $file = $googleDisk->get($filePath);
         return response()->streamDownload(function () use ($file) {
