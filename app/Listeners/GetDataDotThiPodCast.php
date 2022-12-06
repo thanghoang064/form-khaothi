@@ -196,10 +196,12 @@ class GetDataDotThiPodCast
         DB::table('mon_hoc')->insert($monHocDataAdd);
 
         // Thêm vào bảng mon_dot_thi
-        $monDotThi = MonDotThi::select('mon_hoc_id')->where('dot_thi_id', $dotThiId)->get()->toArray();
-        $monDotThiArr = array_reduce($monDotThi, function ($result, $mon_hoc_id) { // Flat
-            return array_merge($result, array_values($mon_hoc_id));
-        }, []);
+        $monDotThi = MonDotThi::select('id', 'mon_hoc_id')->where('dot_thi_id', $dotThiId)->get()->toArray();
+        $monDotThiArr = [];
+        foreach ($monDotThi as $mdt) {
+            $id = $mdt['id'];
+            $monDotThiArr[$id] = $mdt['mon_hoc_id'];
+        }
 
         // Lấy ra các môn thi trong bảng môn học từ db
         $monThiData = Monhoc::select('id', 'ma_mon_hoc')
@@ -215,6 +217,8 @@ class GetDataDotThiPodCast
 
         // Lọc ra id các môn đợt thi chưa tồn tại
         $monDotThiConThieu = array_diff($monHocArr, $monDotThiArr);
+        $monDotThiThua = array_diff($monDotThiArr, $monHocArr);
+
 
         // Thêm môn học còn thiếu vào bảng mon_dot_thi
         $monDotThiDataAdd = [];
@@ -255,18 +259,21 @@ class GetDataDotThiPodCast
             ->join('users', 'lop_dot_thi.giang_vien_id', '=', 'users.id')
             ->join('mon_dot_thi', 'lop_dot_thi.mon_dot_thi_id', '=', 'mon_dot_thi.id')
             ->join('mon_hoc', 'mon_dot_thi.mon_hoc_id', '=', 'mon_hoc.id')
-            ->select("lop_dot_thi.name", "users.email", "mon_hoc.ma_mon_hoc")
+            ->select("lop_dot_thi.id", "lop_dot_thi.name", "users.email", "mon_hoc.ma_mon_hoc")
             ->where('lop_dot_thi.dot_thi_id', $dotThiId)
             ->get()->toArray();
         $tenLopThiDbArr = [];
         foreach ($tenLopThiDb as $lop) {
+            $id = $lop->id;
             $username = explode('@', $lop->email)[0];
             $tenLop = $lop->ma_mon_hoc . '|' . $lop->name . '|' . $username;
-            $tenLopThiDbArr[] = $tenLop;
+            $tenLopThiDbArr[$id] = $tenLop;
         }
 
         $lopConThieu = array_diff($tenLopThi, $tenLopThiDbArr);
-
+        $lopThua = array_diff($tenLopThiDbArr, $tenLopThi);
+        $lopThuaId = array_keys($lopThua);
+        LopDotThi::destroy($lopThuaId);
         $lopDotThiDataAdd = [];
         foreach ($lopConThieu as $lop) {
             $lopAdd = [];
@@ -319,17 +326,20 @@ class GetDataDotThiPodCast
                 $caDotThiArr[] = $ca_thi_add;
             }
         }
-        $caDotThiDb = CaDotThi::select('ca_thi_id', 'lop_dot_thi_id', 'ngay_thi')
+        $caDotThiDb = CaDotThi::select('id', 'ca_thi_id', 'lop_dot_thi_id', 'ngay_thi')
             ->where('ca_dot_thi.dot_thi_id', $dotThiId)
             ->get()->toArray();
         $caDotThiDbArr = [];
         foreach ($caDotThiDb as $each) {
             extract($each);
             $ca_dot_thi = implode('|', [$lop_dot_thi_id, $ca_thi_id, $ngay_thi]);
-            $caDotThiDbArr[] = $ca_dot_thi;
+            $caDotThiDbArr[$id] = $ca_dot_thi;
         }
 
         $caDotThiConThieu = array_diff($caDotThiArr, $caDotThiDbArr);
+        $caDotThiThua = array_diff($caDotThiDbArr, $caDotThiArr);
+        $caDotThiThuaId = array_keys($caDotThiThua);
+        CaDotThi::destroy($caDotThiThuaId);
         $caDotThiAdd = [];
         foreach ($caDotThiConThieu as $index => $cdt) {
             [$lop_dot_thi_id, $ca_thi_id, $ngay_thi] = explode('|', $cdt);
