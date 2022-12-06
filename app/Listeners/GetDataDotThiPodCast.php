@@ -40,7 +40,7 @@ class GetDataDotThiPodCast
         // đọc dữ liệu từ file gg sheet
         $client = getGooogleClient();
         $service = new \Google_Service_Sheets($client);
-        $range = 'KH thi Block 1!A4:O';
+        $range = 'KH thi Block 2!A4:O';
         $spreadsheetId = $event->dotthi->sheet_id;
 
         $data = $service->spreadsheets_values->get($spreadsheetId, $range);

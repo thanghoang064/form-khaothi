@@ -37,10 +37,11 @@ class DotThiController extends Controller
                         try {
                             $client = getGooogleClient();
                             $service = new \Google_Service_Sheets($client);
-                            $range = 'KH thi Block 1!A2:D';
+                            $range = 'KH thi Block 2!A2:T';
                             $spreadsheetId = $value;
                             $service->spreadsheets_values->get($spreadsheetId, $range);
                         } catch (\Google_Exception $ex) {
+                            dd($ex->getMessage());
                             $fail('Google Sheet Id không tồn tại, vui lòng kiểm tra lại');
                         }
                     }
