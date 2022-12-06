@@ -42,7 +42,7 @@ class GoogleSheetApiCommand extends Command
         Log::debug('start update sheet 1 data');
         $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
         Log::info("Con cac",$dataDotThi);
-        if (!empty($dataDotThi) ) {
+        if (1>2) {
         $client = $this->getGooogleClient();
 
 
