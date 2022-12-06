@@ -43,7 +43,7 @@ class GoogleSheetApiCommand extends Command
         $client = $this->getGooogleClient();
 
         $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
-        Log::debug("hello coto11");
+        Log::debug($dataDotThi);
         if (!empty($dataDotThi) ) {
         $service = new Google_Service_Sheets($client);
 
