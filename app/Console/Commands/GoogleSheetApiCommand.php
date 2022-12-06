@@ -40,7 +40,7 @@ class GoogleSheetApiCommand extends Command
         //hau
         //heloo
         Log::debug('start trung bu buoi sheet 1 data');
-        $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
+       // $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
        // Log::info("Con cac",$dataDotThi);
         if (1>2) {
         $client = $this->getGooogleClient();
