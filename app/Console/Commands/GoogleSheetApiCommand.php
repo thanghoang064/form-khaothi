@@ -44,10 +44,11 @@ class GoogleSheetApiCommand extends Command
 
         $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
         Log::debug("hello coto11");
+        if (!empty($dataDotThi) ) {
         $service = new Google_Service_Sheets($client);
 
         Log::debug("hello coto");
-        if (!empty($dataDotThi) ) {
+
 //            $spreadsheetId = '1yOqz4qAmKXTPtKbXYA-fTKK7-z6CNTCNaZmNoYJ48rg';
             $spreadsheetId = $dataDotThi->sheet_id;
             $range = 'KH thi Block 1!A2:T';
