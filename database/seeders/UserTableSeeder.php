@@ -22,6 +22,9 @@ class UserTableSeeder extends Seeder
             ['name' => 'Trần Hữu Thiện', 'email' => 'thienth@fpt.edu.vn', 'email_fe' => 'thienth@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 1],
             ['name' => 'Hoàng Quang Thắng (FE FPL HN)', 'email' => 'thanghq12@fpt.edu.vn', 'email_fe' => 'thanghq12@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 2],
             ['name' => 'Bích test', 'email' => 'bichdtph18289@fpt.edu.vn', 'email_fe' => 'bichdtph18289@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 2],
+            ['name' => "linhnh72", 'email' => 'linhnh72@fpt.edu.vn', 'email_fe' => 'linhnh72@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 1],
+            ['name' => "thanhnv96", 'email' => 'thanhnv96@fpt.edu.vn', 'email_fe' => 'thanhnv96@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 1],
+            ['name' => "anhnh69", 'email' => 'anhnh69@fpt.edu.vn', 'email_fe' => 'anhnh69@fe.edu.vn', 'password' => Hash::make('123456'), 'role_id' => 2],
         ];
         DB::table('users')->insert($data);
     }
