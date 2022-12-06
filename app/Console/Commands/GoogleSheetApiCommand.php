@@ -39,11 +39,11 @@ class GoogleSheetApiCommand extends Command
     {
         //hau
         //heloo
-        Log::debug('start trung bu buoi sheet 1 data');
-        // $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
-        // Log::info("Con cac",$dataDotThi);
-        if (1 < 2) {
-            $client = $this->getGooogleClient();
+        Log::debug('start sheet 1 data');
+       $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
+       Log::info("Test",$dataDotThi);
+        if (1>2) {
+        $client = $this->getGooogleClient();
 
 
             $service = new Google_Service_Sheets($client);
