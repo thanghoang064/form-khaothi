@@ -40,19 +40,18 @@ class GoogleSheetApiCommand extends Command
         //hau
         //heloo
         Log::debug('start trung bu buoi sheet 1 data');
-       // $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
-       // Log::info("Con cac",$dataDotThi);
-        if (1>2) {
-        $client = $this->getGooogleClient();
+        // $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
+        // Log::info("Con cac",$dataDotThi);
+        if (1 < 2) {
+            $client = $this->getGooogleClient();
 
 
+            $service = new Google_Service_Sheets($client);
 
-        $service = new Google_Service_Sheets($client);
+            Log::debug("hello coto");
 
-        Log::debug("hello coto");
-
-//            $spreadsheetId = '1yOqz4qAmKXTPtKbXYA-fTKK7-z6CNTCNaZmNoYJ48rg';
-            $spreadsheetId = $dataDotThi->sheet_id;
+            $spreadsheetId = '1yOqz4qAmKXTPtKbXYA-fTKK7-z6CNTCNaZmNoYJ48rg';
+//            $spreadsheetId = $dataDotThi->sheet_id;
             $range = 'KH thi Block 1!A2:T';
 
             // get values
@@ -61,7 +60,7 @@ class GoogleSheetApiCommand extends Command
 //        dd($values[3147]);
 //        dd($values);
 
-            $dotThiId = 1;
+            $dotThiId = 5;
 
             $soBanGhi = 0;
             $monThi = [];
@@ -116,8 +115,10 @@ class GoogleSheetApiCommand extends Command
             foreach ($usersDiff as $key => $email) {
                 $name = explode("@", $email)[0];
                 if (!empty($name)) { // Nếu tồn tại name mới cho thêm
+                    $email_fe = $name . '@fe.edu.vn';
                     $giamThi1DataAdd[$key]['name'] = $name;
                     $giamThi1DataAdd[$key]['email'] = $email;
+                    $giamThi1DataAdd[$key]['email_fe'] = $email_fe;
                     $giamThi1DataAdd[$key]['password'] = Hash::make(uniqid());
                     $giamThi1DataAdd[$key]['role_id'] = 1;
                 }
@@ -304,6 +305,7 @@ class GoogleSheetApiCommand extends Command
             }
 
             DB::table('ca_dot_thi')->insert($caDotThiAdd);
+            dd('done');
             Log::debug('update sheet 1 data success');
         }
         Log::debug('no data sheet');
