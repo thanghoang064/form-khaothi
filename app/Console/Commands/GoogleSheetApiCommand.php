@@ -40,10 +40,11 @@ class GoogleSheetApiCommand extends Command
         //hau
         //heloo
         Log::debug('start update sheet 1 data');
-        $client = $this->getGooogleClient();
-
         $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
         Log::debug($dataDotThi);
+        $client = $this->getGooogleClient();
+
+
         if (!empty($dataDotThi) ) {
         $service = new Google_Service_Sheets($client);
 
