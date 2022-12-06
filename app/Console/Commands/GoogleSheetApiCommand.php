@@ -43,6 +43,7 @@ class GoogleSheetApiCommand extends Command
         $client = $this->getGooogleClient();
         $service = new Google_Service_Sheets($client);
         $dataDotThi = DB::table('dot_thi')->where('status','=',1)->first();
+        Log::debug($dataDotThi);
         if (!empty($dataDotThi) ) {
 //            $spreadsheetId = '1yOqz4qAmKXTPtKbXYA-fTKK7-z6CNTCNaZmNoYJ48rg';
             $spreadsheetId = $dataDotThi->sheet_id;
