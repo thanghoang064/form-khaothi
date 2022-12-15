@@ -3,6 +3,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{asset('styles/form-bao-cao-thi.css')}}">
     <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <!-- Or for RTL support -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+
 @endsection
 @section('content')
 {{--    @include('sweetalert::alert')--}}
@@ -155,12 +161,17 @@
 @section('page-script')
     <script src="{{asset('vendor/jquery-validate/jquery.validate.min.js')}}"></script>
     <script src="{{asset('vendor/jquery-validate/additional-methods.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
     <script>
         const monhoc = @json($mondotthi);
         const lophoc = @json($lopdotthi);
         const cathi = @json($cadotthi);
+        const selectOptions = {
+            theme: "bootstrap-5",
+            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+        };
 
         $(document).ready(function () {
             $('#ngayThi').flatpickr({
@@ -244,6 +255,7 @@
 
             const lstMonHoc = lstMonHocFil.map(e => `<option value="${e.id}">${e.name}</option>`);
             monHocElement.html(lstMonHoc);
+            monHocElement.select2(selectOptions);
             list_lop_hoc(monHocElement.val());
         }
 
@@ -254,6 +266,7 @@
             });
             const lstLopHoc = lstLopHocFil.map(e => `<option value="${e.id}|${e.name}">${e.name}</option>`);
             tenLopElement.html(lstLopHoc);
+            tenLopElement.select2(selectOptions);
             list_ca_thi(tenLopElement.val());
         }
 
@@ -267,7 +280,7 @@
             const lstCaThi = lstCaThiFil.map(e => {
                 const [year, month, day] = e.ngay_thi.split('-');
                 ngay_thi = [day, month, year].join('/');
-                return `<option value="${e.ca_thi_id + '|' + e.ngay_thi}">${e.name + " - Ngày " + ngay_thi}</option>`
+                return `<option value="${e.ca_thi_id + '|' + e.ngay_thi}">${e.name + " - Ngày " + ngay_thi}</option>`;
             });
             caThiElement.html(lstCaThi);
         }
